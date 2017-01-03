@@ -1,0 +1,24 @@
+
+runtime: python27
+api_version: 1
+threadsafe: true
+
+# Codeship required vars (disable these if deploying via local 'gcloud app deploy' command)
+version: codeship
+application: bluekai-services
+
+
+# [START handlers]
+handlers:
+- url: /static
+  static_dir: static
+- url: /.*
+  script: main.app
+
+- url: /(.*\.css)
+  mime_type: text/css
+  static_files: static/\1
+  upload: static/(.*\.css)
+
+
+# [END handlers]

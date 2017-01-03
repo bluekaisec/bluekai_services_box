@@ -1,0 +1,84 @@
+
+<html>
+  <head>
+    <title>Log Watcher to CSV Converter</title>
+   <link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
+   <link rel="shortcut icon" href="/static/images/favicon.ico"/>
+  </head>
+  <body>
+
+    <!-- Google Tag Manager -->
+  
+    <!-- Data Layer -->
+    <script>
+    dataLayer = [];
+    </script>
+
+    <!-- Tag -->
+    <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+     })(window,document,'script','dataLayer','GTM-KPNDT5H');
+     </script>
+    <!-- End Google Tag Manager -->
+
+    <div id="container">
+      <div class="return_home">
+      <br>
+      <a href="/"> << Return to homepage</a>
+      </div>
+      <div class="pagetitle">
+        <h1>Log Watcher to CSV Converter</h1>
+      </div>
+      <div id="main">
+
+      <div id="cat_picture">
+        <br>
+        <img height="150" src="static/images/amazed-jaw-dropping-cat.gif">
+        <img height="150" src="static/images/keyboard_cat.gif">
+        <img height="150" src="static/images/hands_cat.gif">
+        <img height="150" src="static/images/keyboard_cat_2.gif">
+        <img height="150" src="static/images/you_rang_cat.gif">
+        <img height="150" src="static/images/lame_cat.gif">
+      </div>
+
+        <div id="Upload">
+          <br>
+
+          <h3>Upload your Log Watcher Files</h3>        
+          
+          <p> Enter in your log watcher text file here and it will return a CSV of the site IDs and phints found:</p>
+          <form method="post" action="{{ url_for('log_watch_upload')}}" name="submit" enctype="multipart/form-data">
+            <input accept=".txt" type="file" name="log_watch_file"><br /><br/>
+            <input type="submit" name="submit" value="Submit">
+          </form>
+        
+        </div>
+        
+
+        <div id="">
+
+          <h3>Instructions</h3>
+
+          <ul>
+
+          <li>Ensure you download a .txt log watcher file (it will looks like <a download href="static/files/sample_log_file.txt">this</a> )</li>
+
+          <li> Your input .txt file will look like this </li>
+
+          <img width="640" src="static/images/sample_input.png">
+
+          <li> Your output file will look like this </li>
+
+          <img width="640" src="static/images/sample_csv.png">
+
+          </ul>
+
+        </div>
+        
+      </div>
+    </div>
+  </body>
+</html>
