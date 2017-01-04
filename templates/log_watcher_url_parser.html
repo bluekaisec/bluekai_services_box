@@ -47,9 +47,9 @@
         <div id="Upload">
           <br>
 
-          <h3>Upload your Log Watcher Files</h3>        
+          <h3>Upload your <strong>Raw URL</strong> Log Watcher Files</h3>        
           
-          <p> Enter in your log watcher text file here and it will return a CSV of the site IDs and phints found:</p>
+          <p> Enter in your <strong>Raw URL</strong> log watcher text file here and it will return a CSV of the site IDs and phints found:</p>
           <form method="post" action="{{ url_for('log_watch_upload')}}" name="submit" enctype="multipart/form-data">
             <input accept=".txt" type="file" name="log_watch_file"><br /><br/>
             <input type="submit" name="submit" value="Submit">
@@ -64,7 +64,7 @@
 
           <ul>
 
-          <li>Ensure you download a .txt log watcher file (it will looks like <a download href="static/files/sample_log_file.txt">this</a> )</li>
+          <li>Ensure you download a <strong>Raw URL</strong> .txt log watcher file (it will looks like <a download href="static/files/sample_log_file.txt">this</a> )</li>
 
           <li> Your input .txt file will look like this </li>
 
