@@ -5,7 +5,7 @@ threadsafe: true
 
 # Codeship required vars (disable these if deploying via local 'gcloud app deploy' command)
 version: codeship
-application: bluekai-services
+application: bluekai-services-box
 
 
 # [START handlers]
