@@ -1,6 +1,6 @@
 # BlueKai Services Box
 
-This is an app which will host a bunch of useful services for BlueKai and is available on https://bluekai-services.appspot.com (using Google App Engine)
+This is an app which will host a bunch of useful services for BlueKai and is available on https://bluekai-services-box.appspot.com (using Google App Engine)
 
 ## Deployment ##
 
