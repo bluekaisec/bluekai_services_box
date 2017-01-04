@@ -6,4 +6,6 @@ This is an app which will host a bunch of useful services for BlueKai and is ava
 
 If you have access to this repo it will automatically be pushed via [Codeship](http://www.codeship.com) to the above URL if you push to the "master" branch.
 
-v1
+## Note ##
+
+This website is reliant on Roshan's Google App Engine account
