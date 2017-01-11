@@ -54,20 +54,22 @@ def logparser(log_file):
   # loop through all lines in file
   for line in f:   
 
-    line_split = line.split("\t") # split line by tabs
-    site_id = line_split[1] # grab site ID
-    data = line_split[2].replace('\n',"") # grab pixel string from line
+    if line:
 
-    # return all phints in object
-    phints = phint_puller(data)  
+      line_split = line.split("\t") # split line by tabs
+      site_id = line_split[1] # grab site ID
+      data = line_split[2].replace('\n',"") # grab pixel string from line
+
+      # return all phints in object
+      phints = phint_puller(data)  
 
 
-    # add phint to columns
-    column_adder(phints) 
+      # add phint to columns
+      column_adder(phints) 
 
-    # add phints
-    rows_of_phints.append(phints)
-    rows_of_site_ids.append(site_id)
+      # add phints
+      rows_of_phints.append(phints)
+      rows_of_site_ids.append(site_id)
 
   # loop through all rows and create a csv-formatted list per row
   rows = []
