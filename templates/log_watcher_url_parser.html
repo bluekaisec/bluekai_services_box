@@ -51,7 +51,7 @@
           
           <p> Enter in your <strong>Raw URL</strong> log watcher text file here and it will return a CSV of the site IDs and phints found:</p>
           <form method="post" action="{{ url_for('log_watch_upload')}}" name="submit" enctype="multipart/form-data">
-            <input accept=".txt" type="file" name="log_watch_file"><br /><br/>
+            <input accept=".txt" max-size="15000000" type="file" name="log_watch_file"><br /><br/>
             <input type="submit" name="submit" value="Submit">
           </form>
         
