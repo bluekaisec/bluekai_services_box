@@ -26,14 +26,14 @@ def logparser(log_file):
       if not allphints.startswith('/site/'):    
         
         if "%3D" in allphints:
-          phint_name = allphints.split('%3D')[0]        
+          phint_name = allphints.split('%3D')[0].replace("%20","")        
           phint_value = allphints.split('%3D')[1].split('&')[0]
           phints[phint_name] = phint_value
 
 
         elif "=" in allphints:
 
-          phint_name = allphints.split('=')[0]        
+          phint_name = allphints.split('=')[0].replace("%20","")  
           phint_value = allphints.split('=')[1].split('&')[0]
           phints[phint_name] = phint_value
 
