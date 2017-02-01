@@ -2150,9 +2150,9 @@ DO NOT EDIT BELOW THIS LINE
 
 
 // FUNCTION : Logger
-bk_adobet_integration.logger = function(message){
+bk_adobet_integration.logger = function(message) {
 
-	if(document.cookie.indexOf('bk_adobet_logger=true') > -1){
+	if (document.cookie.indexOf('bk_adobet_logger=true') > -1) {
 		console.log(message);
 	}
 
@@ -2165,27 +2165,31 @@ bk_adobet_integration.generateMbox = function() {
 	var bkCatIdSt = ",";
 	var bkCampStr = ",";
 
-	if (typeof(bk_results) != "undefined" && typeof(bk_results.campaigns) != "undefined") {
+	if (typeof(bk_results) != "undefined") {
 
-		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : 'bk_results' object found");
+		if (typeof(bk_results.campaigns) != "undefined") {
+			//if (typeof(bk_results) != "undefined" && typeof(bk_results.campaigns) != "undefined") {
 
-		for (var i = 0; i < bk_results.campaigns.length; i++) {
+			bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : 'bk_results' object found");
 
-			bkCampStr += bk_results.campaigns[i].campaign + ",";
+			for (var i = 0; i < bk_results.campaigns.length; i++) {
 
-			for (var j = 0; j < bk_results.campaigns[i].categories.length; j++) {
+				bkCampStr += bk_results.campaigns[i].campaign + ",";
 
-				if (typeof(bk_results.campaigns[i].categories[j].categoryID) != "undefined") {
+				for (var j = 0; j < bk_results.campaigns[i].categories.length; j++) {
 
-					var s = bk_results.campaigns[i].categories[j].categoryID + "";
-					bkCatIdSt += bk_results.campaigns[i].categories[j].categoryID + ",";
+					if (typeof(bk_results.campaigns[i].categories[j].categoryID) != "undefined") {
 
+						var s = bk_results.campaigns[i].categories[j].categoryID + "";
+						bkCatIdSt += bk_results.campaigns[i].categories[j].categoryID + ",";
+
+					}
 				}
 			}
-		}
-	} else {
-		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : No 'bk_results' object");
-	}
+		} else {bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : No campaigns object");}
+
+	} else {bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : No 'bk_results' object");}
+
 
 	// Parse BlueKai Campaign Results
 	var insertProfileBKCamps = ("profile.bkCamps=" + bkCampStr);
@@ -2193,16 +2197,16 @@ bk_adobet_integration.generateMbox = function() {
 
 	// Parse BlueKai Campaign Results
 	if (typeof mboxDefine === "function") {
-		
+
 		bk_adobet_integration.div = document.createElement("div");
 		bk_adobet_integration.div.id = "oracle_bluekai_mbox_div";
 		document.body.appendChild(bk_adobet_integration.div);
 		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mbox <div id='oracle_bluekai_mbox_div'> created");
 
-		mboxDefine('oracle_bluekai_mbox_div','oracle_bluekai_mbox',insertProfileBKCamps,insertProfileBKCatIds);
- 		mboxUpdate('oracle_bluekai_mbox');		
+		mboxDefine('oracle_bluekai_mbox_div', 'oracle_bluekai_mbox', insertProfileBKCamps, insertProfileBKCatIds);
+		mboxUpdate('oracle_bluekai_mbox');
 
- 		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mbox defined");
+		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mbox defined");
 		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mboxDefine('oracle_bluekai_mbox_div','oracle_bluekai_mbox'," + insertProfileBKCamps + "," + insertProfileBKCatIds + ");")
 
 
