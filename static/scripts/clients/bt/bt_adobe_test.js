@@ -2213,11 +2213,11 @@ bk_adobet_integration.functions.generateMbox = function() {
 		document.body.appendChild(bk_adobet_integration.div);
 		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mbox <div id='oracle_bluekai_mbox_div'> created");
 
-		mboxDefine('oracle_bluekai_mbox_div', 'oracle_bluekai_mbox', insertProfileBKCamps, insertProfileBKCatIds);
+		mboxDefine('oracle_bluekai_mbox_div', 'oracle_bluekai_mbox', window.bk_adobet_integration.data.insertProfileBKCamps, window.bk_adobet_integration.data.insertProfileBKCatIds);
 		mboxUpdate('oracle_bluekai_mbox');
 
 		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mbox defined");
-		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mboxDefine('oracle_bluekai_mbox_div','oracle_bluekai_mbox'," + insertProfileBKCamps + "," + insertProfileBKCatIds + ");")
+		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mboxDefine('oracle_bluekai_mbox_div','oracle_bluekai_mbox'," + window.bk_adobet_integration.data.insertProfileBKCamps + "," + window.bk_adobet_integration.data.insertProfileBKCatIds + ");")
 
 
 	} else {
@@ -2243,7 +2243,7 @@ bk_adobet_integration.functions.callBlueKai = function(bluekai_jsonreturn_id) {
 		var bk_json_ret = document.createElement("script");
 		bk_json_ret.type = "text/javascript";
 		bk_json_ret.onload = function() {
-			bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : JSON Return tag loaded'");
+			bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : JSON Return tag loaded");
 			bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : Parsing 'bk_results'");
 			bk_adobet_integration.functions.parseBkResults(); // Parse results
 		};
