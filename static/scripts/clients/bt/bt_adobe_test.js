@@ -2130,7 +2130,7 @@ Notes:
 
 - Only tested to work with global mbox
 - Will call BlueKai JSON Return tag asynchronously if not already loaded (http://tags.bluekai.com/site/XXXXX?ret=js&limit=1)
-- Sends data via mboxCreate() (https://marketing.adobe.com/resources/help/en_US/target/ov2/r_target-atjs-mboxcreate.html)
+- Sends data via mboxDefine() && mboxUpdate() (https://marketing.adobe.com/resources/help/en_US/target/ov2/r_target-atjs-mboxdefine-mboxupdate.html)
 - Following code to be pasted at end of mbox.js code (or at any point after mbox.js has run)
 - Set cookie "bk_adobet_logger=true" to enable consolelogging
 
