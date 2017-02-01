@@ -2163,7 +2163,7 @@ bk_adobet_integration.functions.logger = function(message) {
 // FUNCTION : Parse BlueKai data and send to Adobe Target
 bk_adobet_integration.functions.parseBkResults = function() {
 
-	debugger;
+	
 	// Parse BlueKai Campaign Results
 	window.bk_adobet_integration.data.bkCatIdSt = ",";
 	window.bk_adobet_integration.data.bkCampStr = ",";
@@ -2204,7 +2204,6 @@ bk_adobet_integration.functions.parseBkResults = function() {
 
 bk_adobet_integration.functions.generateMbox = function() {
 
-	debugger;
 	// Parse BlueKai Campaign Results
 	window.bk_adobet_integration.data.insertProfileBKCamps = ("profile.bkCamps=" + window.bk_adobet_integration.data.bkCampStr);
 	window.bk_adobet_integration.data.insertProfileBKCatIds = ("profile.bkCatIds=" + window.bk_adobet_integration.data.bkCatIdSt);
@@ -2233,7 +2232,6 @@ bk_adobet_integration.functions.generateMbox = function() {
 // FUNCTION : Call BlueKai
 bk_adobet_integration.functions.callBlueKai = function(bluekai_jsonreturn_id) {
 	
-	debugger;
 	// Check if JSON return tag already there
 	if (document.head.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1 || document.body.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1) {
 
