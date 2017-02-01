@@ -2128,7 +2128,7 @@ Author : roshan.gonsalkorale@oracle.com
 
 Notes:
 
-- Will call BlueKai JSON Return tag asynchronously if not already loaded
+- Will call BlueKai JSON Return tag asynchronously if not already loaded (http://tags.bluekai.com/site/XXXXX?ret=js&limit=1)
 - Must be run before the DOM is ready
 - Sends data via mboxCreate() (https://marketing.adobe.com/resources/help/en_US/target/ov2/r_target-atjs-mboxcreate.html)
 - Following code to be pasted at end of mbox.js code
@@ -2140,7 +2140,7 @@ Notes:
 
 // Create object to store functions
 window.bk_adobet_integration = {};
-window.bk_adobet_integration.bluekai_jsonreturn_id = "39538";
+window.bk_adobet_integration.bluekai_jsonreturn_id = "39538"; // CHANGE TO YOUR ID
 
 /* 
 ##########################################################################################
@@ -2192,13 +2192,22 @@ bk_adobet_integration.generateMbox = function() {
 	var insertProfileBKCatIds = ("profile.bkCatIds=" + bkCatIdSt);
 
 	// Parse BlueKai Campaign Results
-	if (typeof mboxCreate === "function") {
-		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mbox created");
-		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mboxCreate('oracle_bluekai_mbox', " + insertProfileBKCamps + "," + insertProfileBKCatIds + ");");
-		mboxCreate('oracle_bluekai_mbox', insertProfileBKCamps, insertProfileBKCatIds);		
+	if (typeof mboxDefine === "function") {
+		
+		bk_adobet_integration.div = document.createElement("div");
+		bk_adobet_integration.div.id = "oracle_bluekai_mbox_div";
+		document.body.appendChild(bk_adobet_integration.div);
+		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mbox <div id='oracle_bluekai_mbox_div'> created");
+
+		mboxDefine('oracle_bluekai_mbox_div','oracle_bluekai_mbox',insertProfileBKCamps,insertProfileBKCatIds);
+ 		mboxUpdate('oracle_bluekai_mbox');		
+
+ 		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mbox defined");
+		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mboxDefine('oracle_bluekai_mbox_div','oracle_bluekai_mbox'," + insertProfileBKCamps + "," + insertProfileBKCatIds + ");")
+
 
 	} else {
-		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mboxCreate() doesn't exist");
+		bk_adobet_integration.logger("BLUEKAI ADOBE TARGET : mboxDefine() doesn't exist");
 	}
 
 }
