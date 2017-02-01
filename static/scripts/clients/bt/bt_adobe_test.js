@@ -2128,10 +2128,10 @@ Author : roshan.gonsalkorale@oracle.com
 
 Notes:
 
+- Only tested to work with global mbox
 - Will call BlueKai JSON Return tag asynchronously if not already loaded (http://tags.bluekai.com/site/XXXXX?ret=js&limit=1)
-- Must be run before the DOM is ready
 - Sends data via mboxCreate() (https://marketing.adobe.com/resources/help/en_US/target/ov2/r_target-atjs-mboxcreate.html)
-- Following code to be pasted at end of mbox.js code
+- Following code to be pasted at end of mbox.js code (or at any point after mbox.js has run)
 - Set cookie "bk_adobet_logger=true" to enable consolelogging
 
 */
@@ -2163,6 +2163,7 @@ bk_adobet_integration.functions.logger = function(message) {
 // FUNCTION : Parse BlueKai data and send to Adobe Target
 bk_adobet_integration.functions.parseBkResults = function() {
 
+	debugger;
 	// Parse BlueKai Campaign Results
 	window.bk_adobet_integration.data.bkCatIdSt = ",";
 	window.bk_adobet_integration.data.bkCampStr = ",";
@@ -2186,9 +2187,11 @@ bk_adobet_integration.functions.parseBkResults = function() {
 
 					}
 				}
-
-				bk_adobet_integration.functions.generateMbox(); // Generate mbox
+				
 			}
+
+			bk_adobet_integration.functions.generateMbox(); // Generate mbox
+
 		} else {
 			bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : No campaigns object");
 		}
@@ -2201,13 +2204,14 @@ bk_adobet_integration.functions.parseBkResults = function() {
 
 bk_adobet_integration.functions.generateMbox = function() {
 
+	debugger;
 	// Parse BlueKai Campaign Results
 	window.bk_adobet_integration.data.insertProfileBKCamps = ("profile.bkCamps=" + window.bk_adobet_integration.data.bkCampStr);
 	window.bk_adobet_integration.data.insertProfileBKCatIds = ("profile.bkCatIds=" + window.bk_adobet_integration.data.bkCatIdSt);
 
 	// Parse BlueKai Campaign Results
 	if (typeof mboxDefine === "function") {
-
+		
 		bk_adobet_integration.div = document.createElement("div");
 		bk_adobet_integration.div.id = "oracle_bluekai_mbox_div";
 		document.body.appendChild(bk_adobet_integration.div);
@@ -2229,6 +2233,7 @@ bk_adobet_integration.functions.generateMbox = function() {
 // FUNCTION : Call BlueKai
 bk_adobet_integration.functions.callBlueKai = function(bluekai_jsonreturn_id) {
 	
+	debugger;
 	// Check if JSON return tag already there
 	if (document.head.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1 || document.body.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1) {
 
