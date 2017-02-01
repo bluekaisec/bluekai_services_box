@@ -2221,6 +2221,8 @@ bk_adobet_integration.functions.generateMbox = function() {
 
 		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mbox defined");
 		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mboxDefine('oracle_bluekai_mbox_div','oracle_bluekai_mbox'," + window.bk_adobet_integration.data.insertProfileBKCamps + "," + window.bk_adobet_integration.data.insertProfileBKCatIds + ");")
+		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mbox updated");
+		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : mboxUpdate('oracle_bluekai_mbox');");
 
 
 	} else {
