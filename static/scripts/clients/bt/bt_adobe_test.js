@@ -2233,7 +2233,7 @@ bk_adobet_integration.functions.generateMbox = function() {
 bk_adobet_integration.functions.callBlueKai = function(bluekai_jsonreturn_id) {
 	
 	// Check if JSON return tag already there
-	if (document.head.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1 || document.body.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1) {
+	if ((document.head && document.head.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1) || (document.body && document.body.innerHTML.indexOf(bluekai_jsonreturn_id + '?ret=js') > -1)) {
 
 		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : JSON Return tag found");
 		bk_adobet_integration.functions.logger("BLUEKAI ADOBE TARGET : Parsing 'bk_results' directly");
