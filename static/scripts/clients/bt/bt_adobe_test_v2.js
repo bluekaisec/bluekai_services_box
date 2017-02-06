@@ -2317,3 +2317,5 @@ bk_adobet_integration.functions.callBlueKai = function(bluekai_jsonreturn_id) {
 
 // RUN CODE
 bk_adobet_integration.functions.callBlueKai(window.bk_adobet_integration.bluekai_jsonreturn_id);
+
+// updated 
