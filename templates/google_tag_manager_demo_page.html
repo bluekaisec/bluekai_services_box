@@ -46,8 +46,8 @@ function getParameterByName(name) {
 }
 
 // Grab useful vars from query-string and push into data layer
-dataLayer[0].email_address = getParameterByName('email');
-dataLayer[0].phone_number = getParameterByName('phone');
+dataLayer[0].email = getParameterByName('email');
+dataLayer[0].phone = getParameterByName('phone');
 dataLayer[0].customer_id = getParameterByName('customer_id');
 dataLayer[0].sdt_id = getParameterByName('sdt_id');
 
@@ -94,7 +94,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h3>Useful Tips</h3>
             <p> Check the source code for data layer</p>
             <p> Check the logs in the developer window for useful tips</p>
-            <p> You can set some phints in the query-string by adding parameters of 'customer_id=XYZ', 'sdt_id=XYZ', 'email_address=XYZ' or 'phone_number=XYZ' in the URL</p>
+            <p> You can set some phints in the query-string by adding parameters of 'customer_id=XYZ', 'sdt_id=XYZ', 'email=XYZ' or 'phone=XYZ' in the URL</p>
             <p> Here are some links you might want to add event handlers to in Google Tag Manager</p>
             <a href="http://www.google.co.uk" class="test_links">Link to Google</a>
             <a href="http://www.google.co.uk" class="test_links" target="_blank">Link to Google in new window</a>
