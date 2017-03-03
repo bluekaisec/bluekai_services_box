@@ -1,0 +1,103 @@
+
+<html>
+  <head>
+    <title>Google Tag Manager Test Page</title>
+   <link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
+   <link rel="shortcut icon" href="/static/images/favicon.ico"/>
+  </head>
+  <body>
+<script type="text/javascript">
+/*
+##################
+### Data Layer ###
+##################
+*/
+
+// Normal Data Layer
+ dataLayer = [{
+    'clientName' : 'bluekai',
+      'pageCategory': 'test page',      
+    }];
+
+// Pass query-string into data layer as 'query_string'
+if(document.location.href.indexOf('?') > -1){
+  dataLayer[0].query_string = document.location.href.split('?')[1];
+}
+
+// FUNCTION : Query-string grabber
+function getParameterByName(name) {
+  if (typeof queryString === "undefined") {
+    queryString = document.location.search;
+  }
+  var start_char = queryString.toLowerCase().indexOf("?" + name.toLowerCase() + '=') + 1;
+  if (start_char === 0) {
+    start_char = queryString.toLowerCase().indexOf("&" + name.toLowerCase() + '=') + 1;
+  }
+  var parameter_length = name.length + 1;
+
+  if (start_char !== 0) {
+    var querystring_value = queryString.substring(start_char + parameter_length).split('&')[0];
+  }
+  if (querystring_value) {
+    return querystring_value
+  } else {
+    return "";
+  }
+}
+
+// Grab useful vars from query-string and push into data layer
+dataLayer[0].email_address = getParameterByName('email');
+dataLayer[0].phone_number = getParameterByName('phone');
+dataLayer[0].customer_id = getParameterByName('customer_id');
+dataLayer[0].sdt_id = getParameterByName('sdt_id');
+
+
+// Spit out data layer into console
+for (varName in dataLayer[0]){
+  console.log("DATA LAYER : " + varName + " = " + dataLayer[0][varName]);
+}
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NNN44LC');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNN44LC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div id="container">
+      <div class="return_home">
+      <br>
+      <a href="/"> << Return to homepage</a>
+      </div>
+      <div class="pagetitle">
+        <h1>Google Tag Manager Test Page</h1>
+      </div>
+      <div id="main">
+
+      <div id="ron_pictures">
+        <br>
+        <img height="150" src="https://media.giphy.com/media/3o6ozscsz4jRX7xuQE/giphy.gif">
+        <img height="150" src="https://media.giphy.com/media/FSnwQf1mPhN2o/giphy.gif">
+        <img height="150" src="https://media.giphy.com/media/1BXa2alBjrCXC/giphy.gif">        
+      </div>
+
+        <div id="GTM Explanation">
+          <br>
+
+          <h3>Check the source code for the data layer and implementation</h3><br><br>
+            <a href="http://www.google.co.uk" class="test_links" target="_blank">Link to Google</a><br>
+            <a href="http://www.google.co.uk" class="test_links">Link to Google in new window</a>
+                            
+        </div>
+        
+      </div>
+    </div>
+  </body>
+</html>

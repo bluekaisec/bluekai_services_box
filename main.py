@@ -68,6 +68,13 @@ def log_watch_upload():
     
 # CSV CONVERTER : END
 
+# GOOGLE TAG MANAGER TEST PAGE : START
+@app.route('/google_tag_manager_test_page')
+
+def google_tag_manager_test_page():
+    return render_template('google_tag_manager_demo_page.html')
+# GOOGLE TAG MANAGER TEST PAGE : END
+
 @app.errorhandler(500)
 
 def server_error(e):
