@@ -953,6 +953,30 @@
 
                     // Debugging Code : START : roshan.gonsalkorale@oracle.com
 
+                    // Grab Query-string Parameters                    
+                    var urlP;
+                    var match,
+                        pl = /\+/g, // Regex for replacing addition symbol with a space
+                        search = /([^&=]+)=?([^&]*)/g,
+                        decode = function(s) {
+                            return decodeURIComponent(s.replace(pl, " "));
+                        },
+                        query = window.location.search.substring(1);
+
+                    urlP = {};
+                    while (match = search.exec(query))
+                        urlP[decode(match[1]).toLowerCase()] = decode(match[2]);
+
+                    // Drop cookie if "debug" available as query-string
+                    if(urlP.bkdebug){
+
+                        //session cookie
+                        document.cookie = "bkdebug=" + urlP.bkdebug +
+                        ";path=/;domain=" + document.domain + ";expires=";
+
+                    }
+
+
                     // Cookie value of "debug" cookie will be surfaced as a phint called "debug"
                     var getCookies = function(){
                       var pairs = document.cookie.split(";");
@@ -968,7 +992,10 @@
 
                     myCookies = getCookies();
 
-                    if(myCookies.debug){bk_addPageCtx("debug",myCookies.debug);}
+
+                    // Send data if cookie
+                    if(myCookies.debug){bk_addPageCtx("debug",myCookies.debug);}                    
+
                     // Debugging Code : END : roshan.gonsalkorale@oracle.com
                     
                     var q = {
