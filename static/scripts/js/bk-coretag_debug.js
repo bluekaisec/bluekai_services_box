@@ -950,6 +950,27 @@
                             for (var d in a) a.hasOwnProperty(d) && "string" == typeof d && ("string" == typeof a[d] || "number" == typeof a[d] || "boolean" == typeof a[d]) && bk_addPageCtx(d, a[d])
                 },
                 doTag: function(c, d, e, f, l, m, n, o, p) {
+
+                    // Debugging Code : START : roshan.gonsalkorale@oracle.com
+
+                    // Cookie value of "debug" cookie will be surfaced as a phint called "debug"
+                    var getCookies = function(){
+                      var pairs = document.cookie.split(";");
+                      var cookies = {};
+                      for (var i=0; i<pairs.length; i++){
+
+                        var pair = pairs[i].split("=");    
+                        cookies[pair[0].trim()] = unescape(pair[1]);
+
+                      }
+                      return cookies;
+                    }
+
+                    myCookies = getCookies();
+
+                    if(myCookies.debug){bk_addPageCtx("debug",myCookies.debug);}
+                    // Debugging Code : END : roshan.gonsalkorale@oracle.com
+                    
                     var q = {
                         site: c,
                         limit: d,
@@ -1000,27 +1021,7 @@
                             3348: 1
                         };
                         if (!q.excludeBkParams && !q.excludeTitle && "" !== document.title && k.addBkParam("t", document.title), !q.excludeBkParams && !q.excludeKeywords && k.addBkParam("k", b.getKwds()), !q.excludeBkParams && !q.excludeReferrer && "referrer" in document && "" !== document.referrer && k.addBkParam("pr", document.referrer), !q.excludeBkParams && !q.excludeLocation && k.addBkParam("l", window.location.toString()), q.callback ? k.addParam("jscb", encodeURIComponent(q.callback)) : "undefined" != typeof q.limit && k.addParam("limit", encodeURIComponent(q.limit)), q.allData === !0 && k.addParam("data", "all"), q.disableMobile !== !0 && q.suppressStatidPayload !== !0 && "undefined" != typeof i && k.addParam("bknms", i.get()), q.suppressEventScheduling !== !0 && q.eventScheduling === !0 && b.addEvent("message", function(a) {
-                            
-                            // Debugging Code : START : roshan.gonsalkorale@oracle.com
-
-                            // Cookie value of "debug" cookie will be surfaced as a phint called "debug"
-                        	var getCookies = function(){
-							  var pairs = document.cookie.split(";");
-							  var cookies = {};
-							  for (var i=0; i<pairs.length; i++){
-
-							    var pair = pairs[i].split("=");    
-							    cookies[pair[0].trim()] = unescape(pair[1]);
-
-							  }
-							  return cookies;
-							}
-
-							myCookies = getCookies();
-
-							if(myCookies.debug){bk_addPageCtx("debug",myCookies.debug);}
-							// Debugging Code : END : roshan.gonsalkorale@oracle.com
-                            
+                                                                                    
                             if ("http://tags.bluekai.com" === a.origin) {
                                 var b = document.getElementById("__bkframe"),
                                     c = function(a) {
