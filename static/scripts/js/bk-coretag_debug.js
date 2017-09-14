@@ -994,7 +994,7 @@
 
 
                     // Send data if cookie
-                    if(myCookies.debug){bk_addPageCtx("debug",myCookies.debug);}                    
+                    if(myCookies.bkdebug){bk_addPageCtx("bkdebug",myCookies.bkdebug);}                    
 
                     // Debugging Code : END : roshan.gonsalkorale@oracle.com
                     
