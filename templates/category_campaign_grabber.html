@@ -4,6 +4,14 @@
     <title>Category Campaign Grabber</title>
    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
    <link rel="shortcut icon" href="/static/images/favicon.ico"/>
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+   <script src="/static/scripts/js/ajax_post.js"></script>
+
+  <!-- Alertify -->  
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css"/>    
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+
   </head>
   <body>
 
@@ -32,11 +40,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <br>
       <a href="/"> << Return to homepage</a>
       </div>
+      <br>
       <div class="pagetitle">
         <h1>Category Campaign Grabber</h1>
       </div>
       <div id="main">
 
+      <!--
       <div id="cat_picture">
         <br>
         <img height="150" src="static/images/amazed-jaw-dropping-cat.gif">
@@ -46,13 +56,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <img height="150" src="static/images/you_rang_cat.gif">
         <img height="150" src="static/images/lame_cat.gif">
       </div>
+      -->
 
         <div id="Upload">
-          <br>
 
           <h3>Add your category ID and API keys</h3>        
           
           <p> Add them here and it will return all audiences/campaigns which use this category</p>
+
+          <!--
           <form method="post" action="{{ url_for('category_campaign_grabber_details')}}" name="submit" enctype="multipart/form-data">
             API Public Key:<br>
             <input type="text" name="apiPublicKey"><br>
@@ -62,33 +74,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <input type="text" name="categoryID"><br>
             <input type="submit" name="submit" value="Submit">
           </form>
+          -->
+
+          <form class="form-signin" action="/category_campaign_grabber_details" method="post" role="form">
+             
+             <div class="col-xs-8">
+               <input type="apiPublicKey" name="apiPublicKey" class="form-control .col-sm-*" placeholder="Enter Public Key" required autofocus><br>
+               <input type="apiSecretKey" name="apiSecretKey" class="form-control .col-sm-*" placeholder="Enter Secret Key" required><br>
+               <input type="categoryID" name="categoryID" class="form-control .col-sm-*" placeholder="Enter Category ID" required><br>
+               <button class="btn btn-lg btn-primary btn-block" type="button">Submit</button>
+
+               <h3>Results</h3>
+
+               <p>Audience IDs will be presented below in JSON format with details</p>
+
+              <figure class="highlight">
+                 <pre>
+                  <code class="language-html" data-lang="html">
+                    <span class="nt" id="apiResponse"></span>
+                  </code>
+                </pre>
+              </figure>
+               
+
+            </div>
+
+             
+         </form>
+
         
-        </div>
-        
-
-        <div id="">
-
-          <h3>Instructions</h3>
-
-          <ul>
-
-          <li> You will probably need to <strong> ensure there isn't a blank line </strong> at the start before uploading! </li>
-
-          <li>Ensure you download a <strong>Raw URL</strong> .txt log watcher file (it will looks like <a download href="static/files/sample_log_file.txt">this</a> )</li>
-
-          <li> <strong>Note!</strong> Ensure the file is smaller than 15MB or it will be too large to process (open it in notepad/vim and chop it) </li>
-
-          <li> Your input .txt file will look like this </li>
-
-          <img width="640" src="static/images/sample_input.png">
-
-          <li> Your output file will look like this </li>
-
-          <img width="640" src="static/images/sample_csv.png">
-
-          </ul>
-
-        </div>
+        </div>            
         
       </div>
     </div>

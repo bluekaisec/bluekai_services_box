@@ -137,6 +137,8 @@ def logparser(log_file):
 
 def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
+  print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck() started"
+
   import os
   import sys
   import urllib
@@ -152,6 +154,7 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
   # FUNCTION : apiHelper
   def apiCall(apiURL,requestType,data,publicKey,privateKey):
 
+    #print "\nAPICALL : apiCall() started"
     Url = apiURL
 
     if(requestType == "GET"):
@@ -176,6 +179,8 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
   # FUNCTION : Signature Builder
   def signatureInputBuilder(url, method, data,publicKey,bksecretkey):
+
+      #print "\nSIGNATUREINPUTBUILDER : signatureInputBuilder() started\n"
       stringToSign = method
       parsedUrl = urlparse.urlparse(url)
       #print parsedUrl
@@ -198,7 +203,7 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
           stringToSign += data 
       #print "\nString to be Signed:\n" + stringToSign
       
-      h = hmac.new(bksecretkey, stringToSign, hashlib.sha256)
+      h = hmac.new(str(bksecretkey), str(stringToSign), hashlib.sha256)
 
       s = base64.standard_b64encode(h.digest())
       #print "\nRaw Method Signature:\n" + s 
@@ -218,6 +223,8 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
   # FUNCTION : apiCall
   def doRequest(url, method, data):
+
+      #print "\nDOREQUEST : doRequest() started"
       headers = {"Accept":"application/json","Content-type":"application/json","User_Agent":"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"}
       try:
           cJ = cookielib.CookieJar()
@@ -300,8 +307,8 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
         returned_audience = json.loads(returned_audience)
 
         audiences[audience_id] = {}        
-        audiences[audience_id]["name"] = returned_audience["name"]
-        audiences[audience_id]["id"] = returned_audience["id"]
+        audiences[audience_id]["audience_name"] = returned_audience["name"]
+        audiences[audience_id]["audience_id"] = returned_audience["id"]
         audiences[audience_id]["campaigns"] = []
 
         print "AUDIENCE CATEGORY SEARCH : Audience ID='" + str(returned_audience["id"]) + "' | Audience Name='" + returned_audience["name"] + "'"        

@@ -19,6 +19,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Request, Response
 from werkzeug.debug import DebuggedApplication
+import json
 import os
 import io
 
@@ -90,20 +91,22 @@ def category_campaign_grabber_details():
     print "\nCATEGORY CAMPAIGN : category_campaign_grabber_details() submitted via 'submit' button"
 
     from helper_functions import categoryCampaignCheck
-
-    print request
-
-    apiSecretKey = request.form['apiSecretKey']
-    publicKey = request.form['publicKey']    
-    categoryID = request.form['categoryID']    
-
-    print apiSecretKey
-    print publicKey
-    print categoryID
-
-    campaigns = categoryCampaignCheck(publicKey,privateKey,categoryID)
     
-    return campaigns    
+    apiPublicKey =  request.form['apiPublicKey']    
+    apiSecretKey = request.form['apiSecretKey']
+    categoryID =  request.form['categoryID']
+
+    print "\nCATEGORY CAMPAIGN : Detected required form fields"
+
+    print "apiPublicKey=" + apiPublicKey
+    print "apiSecretKey=" + apiSecretKey    
+    print "categoryID=" + categoryID
+
+    campaigns = categoryCampaignCheck(apiPublicKey,apiSecretKey,categoryID)
+    
+    print "\nAUDIENCE DATA RETURNED : Response below"
+    print campaigns
+    return json.dumps(campaigns)    
 
 # CATEGORY AUDIENCE/CAMAPAIGN GRABBER : END
 
