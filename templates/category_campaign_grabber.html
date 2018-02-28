@@ -53,7 +53,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h3>Add your category ID and API keys</h3>        
           
           <p> Add them here and it will return all audiences/campaigns which use this category</p>
-          <form method="post" action="{{ url_for('category_campaign_grabber_submit')}}" name="submit" enctype="multipart/form-data">
+          <form method="post" action="{{ url_for('category_campaign_grabber_details')}}" name="submit" enctype="multipart/form-data">
             API Public Key:<br>
             <input type="text" name="apiPublicKey"><br>
             API Secret Key:<br>
