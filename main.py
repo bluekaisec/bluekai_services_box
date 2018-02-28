@@ -114,9 +114,8 @@ def category_campaign_grabber_details():
 
 def server_error(e):
     # Log the error and stacktrace.
-    logging.exception('An error occurred during a request.')
-    return "HERE IS MY ERROR"
-    # return(e)
+    logging.exception('An error occurred during a request.')    
+    return(e)
     #return 'An internal error occurred.', 500
 if __name__ == "__main__":
 

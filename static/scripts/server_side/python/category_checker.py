@@ -64,8 +64,8 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
         returned_audience = json.loads(returned_audience)
 
         audiences[audience_id] = {}        
-        audiences[audience_id]["name"] = returned_audience["name"]
-        audiences[audience_id]["id"] = returned_audience["id"]
+        audiences[audience_id]["audience_name"] = returned_audience["name"]
+        audiences[audience_id]["audience_id"] = returned_audience["id"]
         audiences[audience_id]["campaigns"] = []
 
         print "AUDIENCE CATEGORY SEARCH : Audience ID='" + str(returned_audience["id"]) + "' | Audience Name='" + returned_audience["name"] + "'"        
@@ -142,7 +142,7 @@ def signatureInputBuilder(url, method, data,publicKey,bksecretkey):
         stringToSign += data 
     #print "\nString to be Signed:\n" + stringToSign
     
-    h = hmac.new(bksecretkey, stringToSign, hashlib.sha256)
+    h = hmac.new(str(bksecretkey), str(stringToSign), hashlib.sha256)
 
     s = base64.standard_b64encode(h.digest())
     #print "\nRaw Method Signature:\n" + s 
@@ -198,27 +198,10 @@ def apiResponseParser(returnData,type):
     print "apiResponseParser() has run"
 
 def main(argv=None):
-
-    #4. Specify the API request method 
-    # Select the API Method by uncommenting the newUrl reference variable and doRequest() method
     
-    # GET
-    #newUrl = signatureInputBuilder(Url, 'GET', None)
-    #doRequest(newUrl, 'GET', None)
-    
-    # POST
-    #newUrl = signatureInputBuilder(Url, 'POST', data)
-    #doRequest(newUrl, 'POST', data)
-    
-    # PUT
-    #newUrl = signatureInputBuilder(Url, 'PUT', data)
-    #doRequest(newUrl, 'PUT', data)
-    
-    #DELETE
-    #newUrl = signatureInputBuilder(Url, 'DELETE', None)
-    #doRequest(newUrl, 'DELETE', None)
-
-    categoryCampaignCheck("e90228f78e4802a797818fe19af732d2a120132687eaa6694b92ffa682160bf5","349dc7c6ef8c8ab9127602aa17fe2679a1049c62856c28d4e57457a19b190f77","611963")
+    # Pass in your (api public key, api private key, category ID)
+    #categoryCampaignCheck("PUBLICKEY","PRIVATEKEY","CATEGORYID")
+    categoryCampaignCheck("349dc7c6ef8c8ab9127602aa17fe2679a1049c62856c28d4e57457a19b190f77","349dc7c6ef8c8ab9127602aa17fe2679a1049c62856c28d4e57457a19b190f77","611839")
     
 if __name__ == "__main__":
    main()
