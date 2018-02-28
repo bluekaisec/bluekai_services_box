@@ -16,7 +16,7 @@
 import logging
 
 from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename, Request, Response
+from werkzeug.utils import secure_filename #request, Response (look into these libraries)
 from werkzeug.debug import DebuggedApplication
 import os
 import io
@@ -85,12 +85,20 @@ def category_campaign_grabber():
 @app.route('/category_campaign_grabber_details', methods=["POST"])
 
 def category_campaign_grabber_details():
-                    
+
+    print "\nCATEGORY CAMPAIGN : category_campaign_grabber_details() submitted via 'submit' button"
+
     from helper_functions import categoryCampaignCheck
 
-    publicKey = "e90228f78e4802a797818fe19af732d2a120132687eaa6694b92ffa682160bf5" # CHANGE
-    privateKey = "349dc7c6ef8c8ab9127602aa17fe2679a1049c62856c28d4e57457a19b190f77" # CHANGE
-    categoryID = "611839" # CHANGE
+    print request
+
+    apiSecretKey = request.form['apiSecretKey']
+    publicKey = request.form['publicKey']    
+    categoryID = request.form['categoryID']    
+
+    print apiSecretKey
+    print publicKey
+    print categoryID
 
     campaigns = categoryCampaignCheck(publicKey,privateKey,categoryID)
     
@@ -106,3 +114,7 @@ def server_error(e):
     return "HERE IS MY ERROR"
     # return(e)
     #return 'An internal error occurred.', 500
+if __name__ == "__main__":
+
+    app.debug = True
+    app.run()
