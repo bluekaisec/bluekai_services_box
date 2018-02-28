@@ -17,12 +17,10 @@ import logging
 
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename, Request, Response
-#from werkzeug import DebuggedApplication
 import os
 import io
 
 app = Flask(__name__)
-#app.run(debug=True)
 
 
 print '\n### LOGGING : Flask started ###\n'
@@ -87,13 +85,7 @@ def category_campaign_grabber():
 @app.route('/category_campaign_grabber_details', methods=["POST"])
 
 def category_campaign_grabber_details():
-        
-    #WRITE CODE TO GRAB FIELDS
-    #uploaded_file = request.files.get('log_watch_file') # Grab submitted file
-    
-    print '### LOGGING : " ',uploaded_file,' "file received ###\n'
-      
-    # import log watch parser
+                    
     from helper_functions import categoryCampaignCheck
 
     publicKey = "e90228f78e4802a797818fe19af732d2a120132687eaa6694b92ffa682160bf5" # CHANGE
@@ -113,6 +105,3 @@ def server_error(e):
     # Log the error and stacktrace.
     logging.exception('An error occurred during a request.')
     return 'An internal error occurred.', 500
-
-if __name__ == "__main__":
-    app.run(debug=True)
