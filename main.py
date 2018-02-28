@@ -87,6 +87,8 @@ def category_campaign_grabber():
 
 def category_campaign_grabber_details():
     
+    app.run(debug=True)
+    
     #WRITE CODE TO GRAB FIELDS
     #uploaded_file = request.files.get('log_watch_file') # Grab submitted file
 
