@@ -76,7 +76,7 @@ def google_tag_manager_test_page():
 # GOOGLE TAG MANAGER TEST PAGE : END
 
 # CATEGORY AUDIENCE/CAMAPAIGN GRABBER : START
-@app.route('/google_tag_manager_test_page')
+@app.route('/category_campaign_grabber')
 
 def category_campaign_grabber():
     return render_template('category_campaign_grabber.html')
