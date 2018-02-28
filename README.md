@@ -12,7 +12,7 @@ If you have access to this repo it will automatically be pushed via [Codeship](h
 
 - This website is reliant on Roshan's Google App Engine account
 
-### Hosting Yourself ###
+## Hosting Yourself ##
 
 **At your own risk** you can pull this code and host on your own Cloud Instance (e.g. Google App Engine or AWS Elastic Beanstalk) using Python Flask (search Google for tutorials)
 

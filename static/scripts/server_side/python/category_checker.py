@@ -13,7 +13,9 @@ import random
 headers = {"Accept":"application/json","Content-type":"application/json","User_Agent":"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"}
 
 def categoryCampaignCheck(publicKey,privateKey,categoryID):
-    
+
+  print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck() started"
+
   # 1 RETURN AUDIENCE LIST AND GET LIST OF IDS
 
   # 1a Call Audiences API to get list of audiences
@@ -90,6 +92,7 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
 def apiCall(apiURL,requestType,data,publicKey,privateKey):
 
+  #print "\nAPICALL : apiCall() started"
   Url = apiURL
 
   if(requestType == "GET"):
@@ -120,6 +123,8 @@ def apiCall(apiURL,requestType,data,publicKey,privateKey):
 
 #Creating the method signature
 def signatureInputBuilder(url, method, data,publicKey,bksecretkey):
+
+    #print "\nSIGNATUREINPUTBUILDER : signatureInputBuilder() started\n"
     stringToSign = method
     parsedUrl = urlparse.urlparse(url)
     #print parsedUrl
@@ -162,6 +167,9 @@ def signatureInputBuilder(url, method, data,publicKey,bksecretkey):
 
 #Generating  the method request 
 def doRequest(url, method, data):
+
+    #print "\nDOREQUEST : doRequest() started"
+
     try:
         cJ = cookielib.CookieJar()
         request = None
@@ -199,9 +207,8 @@ def apiResponseParser(returnData,type):
 
 def main(argv=None):
     
-    # Pass in your (api public key, api private key, category ID)
-    #categoryCampaignCheck("PUBLICKEY","PRIVATEKEY","CATEGORYID")
-    categoryCampaignCheck("349dc7c6ef8c8ab9127602aa17fe2679a1049c62856c28d4e57457a19b190f77","349dc7c6ef8c8ab9127602aa17fe2679a1049c62856c28d4e57457a19b190f77","611839")
+    # Pass in your (api public key, api private key, category ID)
+    categoryCampaignCheck("PUBLICKEY","PRIVATEKEY","CATEGORYID")
     
 if __name__ == "__main__":
    main()
