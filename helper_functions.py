@@ -137,6 +137,18 @@ def logparser(log_file):
 
 def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
+  import os
+  import sys
+  import urllib
+  import urllib2
+  import cookielib
+  import urlparse
+  import hashlib 
+  import hmac
+  import base64
+  import json
+  import random
+
   # FUNCTION : apiHelper
   def apiCall(apiURL,requestType,data,publicKey,privateKey):
 
@@ -206,6 +218,7 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
   # FUNCTION : apiCall
   def doRequest(url, method, data):
+      headers = {"Accept":"application/json","Content-type":"application/json","User_Agent":"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.1) Gecko/20090624 Firefox/3.5"}
       try:
           cJ = cookielib.CookieJar()
           request = None
@@ -236,4 +249,75 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
           print "Network error: %s" % e.reason.args[1]
           print "ERROR: ", e.read()
           return None
+
+  # 1 RETURN AUDIENCE LIST AND GET LIST OF IDS
+
+  # 1a Call Audiences API to get list of audiences
+  print "\nAUDIENCE GRAB : grabbing audiences"
+  urlRequest = "http://services.bluekai.com/Services/WS/audiences"
+  all_audiences = apiCall(urlRequest,"GET",None,publicKey,privateKey)
+  print "AUDIENCE GRAB : audiences should be returned"
+
+  # 1b Loop through returned audience list, grab Audience IDs and put in list
+  print "\nAUDIENCE PARSE : getting list of all audience IDs"
+  audience_ids = []
+  all_audiences = json.loads(all_audiences)
+
+  for audiences in all_audiences["audiences"]:
+    audience_ids.append(audiences["id"])
+
+  print "AUDIENCE PARSE : List of IDs returned (see below)\n"
+  print audience_ids
+
+  # 2 LOOP THROUGH EACH AUDIENCE, CHECK IF CATEGORY ID PRESENT, NOTE AUDIENCE THEN LOOK UP CAMPAIGN  
+  print "\nAUDIENCE CATEGORY SEARCH : Checking each audience for category ID '" + categoryID + "'\n"
+  audiences = {}
+  
+  # 2a Check each audience
+  audience_call_number = 1
+
+  for audience_id in audience_ids:
+  
+    print "AUDIENCE CATEGORY SEARCH : Audience call " + str(audience_call_number)
+    audience_call_number = audience_call_number +1
+    audience_id = str(audience_id)
+    urlRequest = "http://services.bluekai.com/Services/WS/audiences/"+audience_id
+    returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)      
+
+    # 2b Check each for Category ID
+    result = returned_audience.find('cat" : '+ categoryID + ',')
+    print "AUDIENCE CATEGORY SEARCH : Checking audience '" + audience_id + " for category ID '" + categoryID + "'"
+    if result == -1:
+        found = False
+        print "AUDIENCE CATEGORY SEARCH : Category not found"
+    else:
+        found = True
+        print "AUDIENCE CATEGORY SEARCH : Category FOUND"
+    
+    # 2c If found, note the audience ID + name and note campaign names
+    if found:
+
+        returned_audience = json.loads(returned_audience)
+
+        audiences[audience_id] = {}        
+        audiences[audience_id]["name"] = returned_audience["name"]
+        audiences[audience_id]["id"] = returned_audience["id"]
+        audiences[audience_id]["campaigns"] = []
+
+        print "AUDIENCE CATEGORY SEARCH : Audience ID='" + str(returned_audience["id"]) + "' | Audience Name='" + returned_audience["name"] + "'"        
+
+        for campaign in returned_audience["campaigns"]:
+
+            audiences[audience_id]["campaigns"].append(campaign)            
+
+            print "AUDIENCE CATEGORY SEARCH : Campaign ID='" + str(campaign["id"]) + "' | Campaign Name='" + campaign["name"] + "'"        
+
+
+    print ""
+
+  print "\nALL AUDIENCES CAMPAIGNS CHECKED : Results below"
+  print audiences
+
+  # Return to browser
+  return audiences
 

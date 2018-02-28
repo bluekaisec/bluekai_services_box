@@ -80,6 +80,27 @@ def google_tag_manager_test_page():
 
 def category_campaign_grabber():
     return render_template('category_campaign_grabber.html')
+
+@app.route('/category_campaign_grabber_details', methods=["POST"])
+
+def category_campaign_grabber_submit():
+    
+    #WRITE CODE TO GRAB FIELDS
+    #uploaded_file = request.files.get('log_watch_file') # Grab submitted file
+    
+    print '### LOGGING : " ',uploaded_file,' "file received ###\n'
+      
+    # import log watch parser
+    from helper_functions import categoryCampaignCheck
+
+    publicKey = "e90228f78e4802a797818fe19af732d2a120132687eaa6694b92ffa682160bf5" # CHANGE
+    privateKey = "349dc7c6ef8c8ab9127602aa17fe2679a1049c62856c28d4e57457a19b190f77" # CHANGE
+    categoryID = "611839" # CHANGE
+
+    campaigns = categoryCampaignCheck(publicKey,privateKey,categoryID)
+    
+    return campaigns    
+
 # CATEGORY AUDIENCE/CAMAPAIGN GRABBER : END
 
 

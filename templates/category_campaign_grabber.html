@@ -53,8 +53,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h3>Add your category ID and API keys</h3>        
           
           <p> Add them here and it will return all audiences/campaigns which use this category</p>
-          <form method="post" action="{{ url_for('log_watch_upload')}}" name="submit" enctype="multipart/form-data">
-            <input accept=".txt" max-size="15000000" type="file" name="log_watch_file"><br /><br/>
+          <form method="post" action="{{ url_for('category_campaign_grabber_submit')}}" name="submit" enctype="multipart/form-data">
+            API Public Key:<br>
+            <input type="text" name="apiPublicKey"><br>
+            API Secret Key:<br>
+            <input type="text" name="apiSecretKey"><br>
+            Category ID:<br>
+            <input type="text" name="categoryID"><br>
             <input type="submit" name="submit" value="Submit">
           </form>
         
