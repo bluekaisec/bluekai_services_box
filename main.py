@@ -17,6 +17,7 @@ import logging
 
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename, Request, Response
+from werkzeug.debug import DebuggedApplication
 import os
 import io
 
@@ -102,5 +103,6 @@ def category_campaign_grabber_details():
 def server_error(e):
     # Log the error and stacktrace.
     logging.exception('An error occurred during a request.')
-    return(e)
+    return "HERE IS MY ERROR"
+    # return(e)
     #return 'An internal error occurred.', 500
