@@ -134,4 +134,106 @@ def logparser(log_file):
   print '### LOGGING : CSV Generated...\n'
   
   return response
-    
+
+def categoryCampaignCheck(publicKey,privateKey,categoryID):
+
+  # FUNCTION : apiHelper
+  def apiCall(apiURL,requestType,data,publicKey,privateKey):
+
+    Url = apiURL
+
+    if(requestType == "GET"):
+      newUrl = signatureInputBuilder(Url, 'GET', None,publicKey,privateKey)
+      api_call = doRequest(newUrl, 'GET', None)
+      return api_call
+
+    elif(requestType == "POST"):
+      newUrl = signatureInputBuilder(Url, 'POST', data,publicKey,privateKey)
+      api_call = doRequest(newUrl, 'POST', data)
+      return api_call
+
+    elif(requestType == "PUT"):
+      newUrl = signatureInputBuilder(Url, 'PUT', data,publicKey,privateKey)
+      api_call = doRequest(newUrl, 'PUT', data)
+      return api_call
+
+    elif(requestType == "DELETE"):
+      newUrl = signatureInputBuilder(Url, 'DELETE', None,publicKey,privateKey)
+      api_call = doRequest(newUrl, 'DELETE', None)
+      return api_call          
+
+  # FUNCTION : Signature Builder
+  def signatureInputBuilder(url, method, data,publicKey,bksecretkey):
+      stringToSign = method
+      parsedUrl = urlparse.urlparse(url)
+      #print parsedUrl
+      stringToSign += parsedUrl.path
+      
+      # splitting the query into array of parameters separated by the '&' character
+      #print parsedUrl.query
+      qP = parsedUrl.query.split('&')
+      #print qP
+
+      if len(qP) > 0:
+          for  qS in qP:
+              qP2 = qS.split('=')
+              #print qP2
+              if len(qP2) > 1:
+                  stringToSign += qP2[1]
+      
+      #print stringToSign
+      if data != None :
+          stringToSign += data 
+      #print "\nString to be Signed:\n" + stringToSign
+      
+      h = hmac.new(bksecretkey, stringToSign, hashlib.sha256)
+
+      s = base64.standard_b64encode(h.digest())
+      #print "\nRaw Method Signature:\n" + s 
+      
+      u = urllib.quote_plus(s)
+      #print "\nURL Encoded Method Signature (bksig):\n" + u
+
+      newUrl = url 
+      if url.find('?') == -1 :
+          newUrl += '?'
+      else:
+          newUrl += '&'
+          
+      newUrl += 'bkuid=' + publicKey + '&bksig=' + u 
+
+      return newUrl
+
+  # FUNCTION : apiCall
+  def doRequest(url, method, data):
+      try:
+          cJ = cookielib.CookieJar()
+          request = None
+          if method == 'PUT': 
+              request = urllib2.Request(url, data, headers)
+              request.get_method = lambda: 'PUT'
+          elif  method == 'DELETE' :
+              request = urllib2.Request(url, data, headers)
+              request.get_method = lambda: 'DELETE'
+          elif data != None :
+              request = urllib2.Request(url, data, headers)
+          else:
+              request = urllib2.Request(url, None, headers)  
+              opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cJ))
+              
+              u = opener.open(request)
+              rawData = u.read()
+              #print "\nResponse Code: 200"
+              #print "\nAPI Response:\n" + rawData + "\n"
+              #apiResponseParser(rawData,None)
+              return rawData
+
+      except urllib2.HTTPError, e:
+          print "\nHTTP error: %d %s" % (e.code, str(e)) 
+          print "ERROR: ", e.read()
+          return None
+      except urllib2.URLError, e:
+          print "Network error: %s" % e.reason.args[1]
+          print "ERROR: ", e.read()
+          return None
+
