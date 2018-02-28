@@ -16,7 +16,7 @@
 import logging
 
 from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename,Request, Response
 import os
 import io
 
@@ -88,7 +88,7 @@ def category_campaign_grabber():
 def category_campaign_grabber_details():
     
     app.run(debug=True)
-    
+
     #WRITE CODE TO GRAB FIELDS
     #uploaded_file = request.files.get('log_watch_file') # Grab submitted file
 
