@@ -22,7 +22,7 @@ import os
 import io
 
 app = Flask(__name__)
-app.run(debug=True)
+#app.run(debug=True)
 
 
 print '\n### LOGGING : Flask started ###\n'
