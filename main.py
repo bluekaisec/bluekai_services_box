@@ -16,7 +16,8 @@
 import logging
 
 from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename #request, Response (look into these libraries)
+from werkzeug.utils import secure_filename
+from werkzeug.wrappers import Request, Response
 from werkzeug.debug import DebuggedApplication
 import os
 import io
