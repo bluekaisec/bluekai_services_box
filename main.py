@@ -75,6 +75,14 @@ def google_tag_manager_test_page():
     return render_template('google_tag_manager_demo_page.html')
 # GOOGLE TAG MANAGER TEST PAGE : END
 
+# CATEGORY AUDIENCE/CAMAPAIGN GRABBER : START
+@app.route('/google_tag_manager_test_page')
+
+def category_campaign_grabber():
+    return render_template('category_campaign_grabber.html')
+# CATEGORY AUDIENCE/CAMAPAIGN GRABBER : END
+
+
 @app.errorhandler(500)
 
 def server_error(e):
