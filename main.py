@@ -22,7 +22,6 @@ import io
 
 app = Flask(__name__)
 
-
 print '\n### LOGGING : Flask started ###\n'
 
 @app.route('/')
@@ -97,7 +96,6 @@ def category_campaign_grabber_details():
     return campaigns    
 
 # CATEGORY AUDIENCE/CAMAPAIGN GRABBER : END
-
 
 @app.errorhandler(500)
 
