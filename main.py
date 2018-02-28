@@ -22,6 +22,8 @@ import io
 
 app = Flask(__name__)
 
+app.debug = True #ERROR LOGGING
+
 print '\n### LOGGING : Flask started ###\n'
 
 @app.route('/')
