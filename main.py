@@ -16,12 +16,13 @@
 import logging
 
 from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename,Request,Response,DebuggedApplication
+from werkzeug.utils import secure_filename,Request,Response
+from werkzeug import DebuggedApplication
 import os
 import io
 
 app = Flask(__name__)
-#app.run(debug=True)
+app.run(debug=True)
 
 
 print '\n### LOGGING : Flask started ###\n'
