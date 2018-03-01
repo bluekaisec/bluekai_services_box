@@ -285,14 +285,15 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
   for audience_id in audience_ids:
   
-    print "AUDIENCE CATEGORY SEARCH : Audience call " + str(audience_call_number)
+    print "AUDIENCE CATEGORY SEARCH : Audience call " + str(audience_call_number) + " : Audience ID = " + str(audience_id)
     audience_call_number = audience_call_number +1
     audience_id = str(audience_id)
     urlRequest = "http://services.bluekai.com/Services/WS/audiences/"+audience_id
     returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)      
 
     # 2b Check each for Category ID
-    result = returned_audience.find('cat" : '+ categoryID + ',')
+    
+    result = returned_audience.find('cat" : '+ str(categoryID) + ',')
     print "AUDIENCE CATEGORY SEARCH : Checking audience '" + audience_id + " for category ID '" + categoryID + "'"
     if result == -1:
         found = False

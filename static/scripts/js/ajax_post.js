@@ -26,7 +26,7 @@ $(function() {
         } else {
             
             jQuery("#apiResponse").html("<br>Awaiting API results (may take a minute or two (if it fails it will say here)...<br><br>Public Key = " + form_fields.apiPublicKey + "<br>Secret Key = " + form_fields.apiSecretKey + "<br>Category ID = " + form_fields.categoryID);
-            var notify_inprogress = alertify.notify('Request in progress.', 'custom', 5);
+            var notify_inprogress = alertify.notify('Request in progress.', 'custom', 100);
 
             $.ajax({
                 url: '/category_campaign_grabber_details',
@@ -34,7 +34,8 @@ $(function() {
                 type: 'POST',
                 success: function(response) {
 
-                    // Handle notifications                    
+                    // Handle notifications       
+                    notify_inprogress.dismiss();             
                     alertify.notify("SUCCESS! Audiences/Campaigns Retrieved", 'success', 5, function() {}); // success
 
                     // Push data into form

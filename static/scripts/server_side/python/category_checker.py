@@ -51,7 +51,7 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
     returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)      
 
     # 2b Check each for Category ID
-    result = returned_audience.find('cat" : '+ categoryID + ',')
+    result = returned_audience.find('cat" : '+ str(categoryID) + ',')
     print "AUDIENCE CATEGORY SEARCH : Checking audience '" + audience_id + " for category ID '" + categoryID + "'"
     if result == -1:
         found = False
