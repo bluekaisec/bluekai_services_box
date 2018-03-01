@@ -25,8 +25,8 @@ $(function() {
 
         } else {
             
-            jQuery("#apiResponse").html("<br>Awaiting API results (may take a minute or two (if it fails it will say here)...<br><br>Public Key = " + form_fields.apiPublicKey + "<br>Secret Key = " + form_fields.apiSecretKey + "<br>Category ID = " + form_fields.categoryID);
-            var notify_inprogress = alertify.notify('Request in progress.', 'custom', 100);
+            jQuery("#apiResponse").html("<br>Awaiting API results (may take a minute or two (if it fails it will say here))...<br><br>Public Key = " + form_fields.apiPublicKey + "<br>Secret Key = " + form_fields.apiSecretKey + "<br>Category ID = " + form_fields.categoryID);
+            var notify_inprogress = alertify.notify('Request in progress.', 'custom', 1000);
 
             $.ajax({
                 url: '/category_campaign_grabber_details',
@@ -49,7 +49,7 @@ $(function() {
                 error: function(error) {
                     alertify.error(error.statusText + "<br> Check your credentials/category ID");
                     notify_inprogress.dismiss();
-                    jQuery("#apiResponse").html("<br>Failure - check your credentials...<br><br>Public Key = " + form_fields.apiPublicKey + "<br>Secret Key = " + form_fields.apiSecretKey + "<br>Category ID = " + form_fields.categoryID);
+                    jQuery("#apiResponse").html("<br>Failure - either credentials are wrong or something is broken (send your category ID to roshan.gonsalkorale@oracle.com)...<br><br>Public Key = " + form_fields.apiPublicKey + "<br>Secret Key = " + form_fields.apiSecretKey + "<br>Category ID = " + form_fields.categoryID);
                 }
             });
         }
