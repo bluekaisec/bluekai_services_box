@@ -476,7 +476,7 @@ def categoryCampaignCheck(requestID):
   #Check Pickle for request
   request_data = readFromMem(requestID)
 
-  return request_data
+  return json.dumps(request_data)
 
   # If no data yet : return 'not completed'
   if request_data == "no data":
