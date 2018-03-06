@@ -274,6 +274,9 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   urlRequest = "http://services.bluekai.com/Services/WS/audiences"
   all_audiences = apiCall(urlRequest,"GET",None,publicKey,privateKey)
   print "AUDIENCE GRAB : audiences should be returned"
+
+  this_request["notes"].append("audiences_returned")
+  writeToMem(requestID,this_request)  
   
   # 1b Loop through returned audience list, grab Audience IDs and put in list
   print "\nAUDIENCE PARSE : getting list of all audience IDs"
