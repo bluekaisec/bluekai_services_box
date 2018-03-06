@@ -271,6 +271,12 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   all_audiences = apiCall(urlRequest,"GET",None,publicKey,privateKey)
   print "AUDIENCE GRAB : audiences should be returned"
 
+  this_request = {} 
+  this_request["status"] = "not completed"
+  this_request["id"] = requestID
+  this_request["notes"] = "audiences returned"
+  writeToMem(requestID,this_request)
+
   # 1b Loop through returned audience list, grab Audience IDs and put in list
   print "\nAUDIENCE PARSE : getting list of all audience IDs"
   audience_ids = []
@@ -281,6 +287,12 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   print "AUDIENCE PARSE : List of IDs returned (see below)\n"
   print audience_ids
+
+  this_request = {} 
+  this_request["status"] = "not completed"
+  this_request["id"] = requestID
+  this_request["notes"] = "all audiences parsed"
+  writeToMem(requestID,this_request)
 
   # 2 LOOP THROUGH EACH AUDIENCE, CHECK IF CATEGORY ID PRESENT, NOTE AUDIENCE THEN LOOK UP CAMPAIGN  
   print "\nAUDIENCE CATEGORY SEARCH : Checking each audience for category ID '" + categoryID + "'\n"
@@ -295,7 +307,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
     audience_call_number = audience_call_number +1
     audience_id = str(audience_id)
     urlRequest = "http://services.bluekai.com/Services/WS/audiences/"+audience_id
-    returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)      
+    returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)    
 
     # 2b Check each for Category ID
     
@@ -309,6 +321,12 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
         print "AUDIENCE CATEGORY SEARCH : Category FOUND"
     
     # 2c If found, note the audience ID + name and note campaign names
+    this_request = {} 
+    this_request["status"] = "not completed"
+    this_request["id"] = requestID
+    this_request["notes"] = "audience checked : " + audience_id
+    writeToMem(requestID,this_request)
+    
     if found:
 
         returned_audience = json.loads(returned_audience)
