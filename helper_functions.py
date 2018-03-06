@@ -155,6 +155,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   this_request = {} 
   this_request["status"] = "not completed"
   this_request["id"] = requestID
+  this_request["notes"] = []
   writeToMem(requestID,this_request)
 
   # FUNCTION : apiHelper
@@ -271,10 +272,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   all_audiences = apiCall(urlRequest,"GET",None,publicKey,privateKey)
   print "AUDIENCE GRAB : audiences should be returned"
 
-  this_request = {} 
-  this_request["status"] = "not completed"
-  this_request["id"] = requestID
-  this_request["notes"] = "audiences returned"
+  this_request["notes"].append("audiences returned")
   writeToMem(requestID,this_request)
 
   # 1b Loop through returned audience list, grab Audience IDs and put in list
@@ -287,11 +285,8 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   print "AUDIENCE PARSE : List of IDs returned (see below)\n"
   print audience_ids
-
-  this_request = {} 
-  this_request["status"] = "not completed"
-  this_request["id"] = requestID
-  this_request["notes"] = "all audiences parsed"
+  
+  this_request["notes"].append("all audiences parsed")  
   writeToMem(requestID,this_request)
 
   # 2 LOOP THROUGH EACH AUDIENCE, CHECK IF CATEGORY ID PRESENT, NOTE AUDIENCE THEN LOOK UP CAMPAIGN  
@@ -320,13 +315,12 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
         found = True
         print "AUDIENCE CATEGORY SEARCH : Category FOUND"
     
-    # 2c If found, note the audience ID + name and note campaign names
-    this_request = {} 
-    this_request["status"] = "not completed"
-    this_request["id"] = requestID
-    this_request["notes"] = "audience checked : " + audience_id
-    writeToMem(requestID,this_request)
     
+    this_request["notes"].append("AUDIENCE CATEGORY SEARCH : Checking audience '" + audience_id + " for category ID '" + categoryID + "'")
+    writeToMem(requestID,this_request)
+
+
+    # 2c If found, note the audience ID + name and note campaign names    
     if found:
 
         returned_audience = json.loads(returned_audience)
@@ -343,14 +337,17 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
             audiences[audience_id]["campaigns"].append(campaign)            
 
             print "AUDIENCE CATEGORY SEARCH : Campaign ID='" + str(campaign["id"]) + "' | Campaign Name='" + campaign["name"] + "'"        
+            
+            this_request["notes"].append("AUDIENCE CATEGORY SEARCH : Campaign ID='" + str(campaign["id"]) + "' | Campaign Name='" + campaign["name"] + "'")
+            writeToMem(requestID,this_request)
 
   print "\nALL AUDIENCES CAMPAIGNS CHECKED : Writing to Memory"
 
-  # Writing results to data
-  this_request = {}
+  # Writing results to data  
   this_request["data"] = audiences
   this_request["status"] = "completed"
   this_request["id"] = requestID
+  this_request["notes"].append("job completed")
   writeToMem(requestID,this_request)
 
 def writeToMem(requestID,data):
