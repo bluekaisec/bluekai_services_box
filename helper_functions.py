@@ -141,6 +141,9 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignQueue() started"
 
+  # Clear all of Pickle Memory
+  clearAllMem()
+
   # Write requestID to memory so we can poll the status of it
   requestData = {}  
   requestData["status"] = "not completed"
@@ -433,7 +436,7 @@ def clearFromMem(requestID):
     #print all_requests
     
     #print "\nPICKLE : Deleting requestID=" + requestID + " from pickle object"
-    #del all_requests[requestID]
+    del all_requests[requestID]
     
     pickle_out = open("requests.pickle","wb")
     pickle.dump(all_requests, pickle_out)    
@@ -442,11 +445,34 @@ def clearFromMem(requestID):
     #print "\nPICKLE : See updated pickle object below"
     #print all_requests
 
+def clearAllMem():
+
+  print "\nPICKLE : clearAllMem() called"
+
+  try:
+
+    open("requests.pickle","rb")
+
+  except:
+
+    print "\nNo shared pickle object found : ABORT"
+    
+  else:
+
+    all_requests = {}
+
+    print "\nClearing all Pickle Memory"
+    pickle_out = open("requests.pickle","wb")
+    pickle.dump(all_requests, pickle_out)    
+    pickle_out.close()
+
+    
 def categoryCampaignCheck(requestID):
 
   print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck() started"
   print "requestID = " + requestID
   print ""
+  return "here is my return" #kill this later
   
   #Check Pickle for request
   request_data = readFromMem(requestID)
