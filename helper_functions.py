@@ -476,10 +476,7 @@ def categoryCampaignCheck(requestID):
   
   #Check Pickle for request
   request_data = readFromMem(requestID)
-
-  data = {"status":"custom json dump"}  
-  return json.dumps(data)    
-
+  
   # If no data yet : return 'not completed'
   if request_data == "no data":
 
@@ -490,6 +487,7 @@ def categoryCampaignCheck(requestID):
 
   # If data : return data (and remove from Pickle if 'completed')
   else:
+    return "hit end"
     print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : data found in Pickle : see returned below:"
     print request_data
     print ""
