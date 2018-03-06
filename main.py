@@ -93,7 +93,7 @@ def category_campaign_grabber_queue():
     
     print "\nCATEGORY CAMPAIGN : category_campaign_grabber_queue() submitted via 'submit' button"
 
-    from helper_functions import categoryCampaignQueue, writeToMem
+    from helper_functions import categoryCampaignQueue
     
     apiPublicKey =  request.form['apiPublicKey']    
     apiSecretKey = request.form['apiSecretKey']
@@ -109,13 +109,7 @@ def category_campaign_grabber_queue():
 
     # Queue job to request campaign data
     thread.start_new_thread(categoryCampaignQueue,(apiPublicKey,apiSecretKey,categoryID,requestID))
-
-    # Write requestID to memory so we can poll the status of it
-    this_request = {} 
-    this_request["status"] = "not completed"
-    this_request["id"] = requestID
-    writeToMem(requestID,this_request)
-
+    
     return "Queued job for requestID = " + requestID
     
 @app.route('/category_campaign_grabber_poll', methods=["POST"])
