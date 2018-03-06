@@ -266,19 +266,22 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   # 1 RETURN AUDIENCE LIST AND GET LIST OF IDS
 
-  this_request["notes"].append("requesting audiences")
+  this_request["notes"].append("AUDIENCE GRAB : grabbing audiences")
   writeToMem(requestID,this_request)  
 
   # 1a Call Audiences API to get list of audiences
   print "\nAUDIENCE GRAB : grabbing audiences"
-  urlRequest = "https://services.bluekai.com/Services/WS/audiences"
+  urlRequest = "http://services.bluekai.com/Services/WS/audiences"
   all_audiences = apiCall(urlRequest,"GET",None,publicKey,privateKey)
   print "AUDIENCE GRAB : audiences should be returned"
 
-  this_request["notes"].append("audiences_returned")
+  this_request["notes"].append("AUDIENCE GRAB : audiences should be returned")
   writeToMem(requestID,this_request)  
   
   # 1b Loop through returned audience list, grab Audience IDs and put in list
+  this_request["notes"].append("AUDIENCE PARSE : getting list of all audience IDs")
+  writeToMem(requestID,this_request)
+
   print "\nAUDIENCE PARSE : getting list of all audience IDs"
   audience_ids = []
   all_audiences = json.loads(all_audiences)
@@ -294,7 +297,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   print "AUDIENCE PARSE : List of IDs returned (see below)\n"
   print audience_ids
   
-  this_request["notes"].append("all audiences parsed")  
+  this_request["notes"].append("AUDIENCE PARSE : all audiences parsed")  
   writeToMem(requestID,this_request)
 
   # 2 LOOP THROUGH EACH AUDIENCE, CHECK IF CATEGORY ID PRESENT, NOTE AUDIENCE THEN LOOK UP CAMPAIGN  
@@ -308,7 +311,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   
     print "AUDIENCE CATEGORY SEARCH : Audience call " + str(audience_call_number) + " : Audience ID = " + str(audience_id)    
     audience_id = str(audience_id)
-    urlRequest = "https://services.bluekai.com/Services/WS/audiences/"+audience_id
+    urlRequest = "http://services.bluekai.com/Services/WS/audiences/"+audience_id
     returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)    
 
     # 2b Check each for Category ID
