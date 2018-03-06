@@ -15,7 +15,7 @@
 # [START app]
 import logging
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Request, Response
 from werkzeug.debug import DebuggedApplication
@@ -132,7 +132,6 @@ def server_error(e):
     logging.exception('An error occurred during a request.')    
     return(e)
     #return 'An internal error occurred.', 500
-
 if __name__ == "__main__":
 
     app.debug = True

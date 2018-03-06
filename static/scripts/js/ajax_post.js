@@ -25,7 +25,7 @@ window.categoryCampaignPoll = function(requestID){
                     data: request_data,
                     type: 'POST',
                     success: function(response) {
-
+                        
                         // Parse response so we can read it
                         response = JSON.parse(response);
 

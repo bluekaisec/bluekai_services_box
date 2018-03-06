@@ -149,14 +149,14 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   requestData["status"] = "not completed"
   writeToMem(requestID,requestData)
 
-  import os
+  import os  
   import urllib
   import urllib2
   import cookielib
   import urlparse
   import hashlib 
   import hmac
-  import base64
+  import base64  
   import random
 
   # FUNCTION : apiHelper
@@ -338,104 +338,159 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
 def writeToMem(requestID,data):
 
-  print "\nGLOBAL : writeToMem() called"
+  print "\nPICKLE : writeToMem() called"
 
-  # if 'all_requests' does not exist in globals() : add it
-  if "all_requests" not in globals():
+  try:
 
-    global all_requests
+    open("requests.pickle","rb")
+
+  except:
+
+    #print "\nPICKLE : No shared pickle object found : creating with request : " + requestID + " = " + str(data)
+
+    # if no object doesn't exist : create and write to shared
     all_requests = {}
+    all_requests[requestID] = data
+    pickle_out = open("requests.pickle","wb")
 
-    print "'all_requests' not found in globals() : created (see below)"
+    print "\nNo Pickle Object found : creating object (see value below)"
+    print all_requests
+    pickle.dump(all_requests, pickle_out)
+    pickle_out.close()
+
+  else:
+
+    # if object exists : add request to object in shared
+    pickle_in = open("requests.pickle","rb")
+    all_requests = pickle.load(pickle_in)
+
+    print "\nShared pickle object found : see below"
+    print all_requests
+    print ""
+
+    all_requests[requestID] = data
+
+    print all_requests[requestID]
+    print ""
+
+    print "\nUpdating pickle object with request " + requestID +  " = " + str(data) + " see below:"
     print all_requests
 
-  # Adding request into 'all_requests'
-  print "\nUpdating 'all_requests' with request " + requestID +  " = " + str(data) + " see below:"
-  print data
-
-  all_requests[requestID] = data
+    pickle_out = open("requests.pickle","wb")
+    pickle.dump(all_requests, pickle_out)
+    pickle_out.close()
 
 def readFromMem(requestID):
 
-  print "GLOBAL : readFromMem() called"
+  print "PICKLE : readFromMem() called"
 
-  # if 'all_requests' not found in globals() then return
-  if "all_requests" not in globals():
+  try:
 
-    print "No 'all_requests' found"
-    return "No 'all_requests' found"
+    open("requests.pickle","rb")
+
+  except:
+
+    return "No shared pickle object found" #checking pickle
+    print "\nNo shared pickle object found"
     
   else:
 
-    # if 'all_requests' exists in globals() : add request
+    # if object exists : add request to object in shared
+    pickle_in = open("requests.pickle","rb")
+    all_requests = pickle.load(pickle_in)    
+
     if requestID in all_requests:
-      print  "'all_requests' : found request = " + requestID + " : printing below and returning"
+      print  "Shared pickle object : found request = " + requestID + " : printing below"
       print all_requests[requestID]
       return all_requests[requestID]
 
     else:
 
-      print "\nRequest not found in 'all_requests' : returning"
-      return "No requests found"
+      print "\nRequest not found in Pickle object : returning 'no data'"
+      return "Request not found in Pickle object : returning 'no data'"
     
     
 def clearFromMem(requestID):
 
-  print "\nGLOBAL : clearFromMem() called"
+  print "\nPICKLE : clearFromMem() called"
 
-  if "all_requests" not in globals():
+  try:
 
-    print "No requests found"
-    return "No requests found"
+    open("requests.pickle","rb")
+
+  except:
+
+    print "\nNo shared pickle object found : ABORT"
     
   else:
-  
-    print "\nGLOBAL : Deleting requestID=" + requestID + " from 'all_requests' object"
-    del all_requests[requestID]            
+
+    # if object exists : add request to object in shared
+    pickle_in = open("requests.pickle","rb")
+    all_requests = pickle.load(pickle_in)
+
+    #print "\nPICKLE : Shared pickle object found : see below"
+    #print all_requests
+    
+    #print "\nPICKLE : Deleting requestID=" + requestID + " from pickle object"
+    del all_requests[requestID]
+    
+    pickle_out = open("requests.pickle","wb")
+    pickle.dump(all_requests, pickle_out)    
+    pickle_out.close()
+
+    #print "\nPICKLE : See updated pickle object below"
+    #print all_requests
 
 def clearAllMem():
 
-  print "\nGLOBAL : clearAllMem() called"
+  print "\nPICKLE : clearAllMem() called"
 
-  if "all_requests" not in globals():
+  try:
 
-    print "No requests found"
-    return "No requests found"
-      
+    open("requests.pickle","rb")
+
+  except:
+
+    print "\nNo shared pickle object found : ABORT"
+    
   else:
 
     all_requests = {}
 
-    print "\nClearing 'all_requests'"    
+    print "\nClearing all Pickle Memory"
+    pickle_out = open("requests.pickle","wb")
+    pickle.dump(all_requests, pickle_out)    
+    pickle_out.close()
+
     
 def categoryCampaignCheck(requestID):
 
   print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck() started"
   print "requestID = " + requestID
   print ""  
-
+  
   #Check Pickle for request
   request_data = readFromMem(requestID)
   
   # If no data yet : return 'not completed'
-  if request_data == "No requests found":
+  if request_data == "No shared pickle object found":
 
     print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : no data found in Pickle : returning {'status':'not competed'}"
-    data = {"status":"not completed - no requests found yet"}
+    data = {"status":"not completed - no shared pickle object found yet"}
     #print "DUMPING DATA 2 !!!"
     return json.dumps(data)
 
-  # If data : return data (and remove from 'all_requests' if 'completed')
+  # If data : return data (and remove from Pickle if 'completed')
   else:
     
-    print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : data found in 'all_requests' : see returned below:"
+    print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : data found in Pickle : see returned below:"
     print request_data
     print ""
 
     # Remove from mem if request completed    
     if request_data["status"] == "completed":
       
-      print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : removing request from 'all_requests' as no longer required"
+      print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : removing request from Pickle as no longer required"
 
       clearFromMem(requestID)
       return json.dumps(request_data)
