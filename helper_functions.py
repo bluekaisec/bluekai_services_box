@@ -390,19 +390,14 @@ def readFromMem(requestID):
 
   except:
 
-    return "no data" #checking pickle
+    return "No shared pickle object found" #checking pickle
     print "\nNo shared pickle object found"
     
   else:
 
     # if object exists : add request to object in shared
-    pickle_in = open("requests.pickle","rb")    
-    all_requests = pickle.load(pickle_in)
-
-    #print "\n PICKLE : Shared pickle object found : see below"
-    #print all_requests
-    #print "\n PICKLE : Shared pickle object found : looking for : request ID=" + requestID
-
+    pickle_in = open("requests.pickle","rb")
+    all_requests = pickle.load(pickle_in)    
 
     if requestID in all_requests:
       print  "Shared pickle object : found request = " + requestID + " : printing below"
@@ -411,8 +406,8 @@ def readFromMem(requestID):
 
     else:
 
-      print "\nRequest not found in Pickle object : returning 'no data'"      
-      return "no data"
+      print "\nRequest not found in Pickle object : returning 'no data'"
+      return "Request not found in Pickle object : returning 'no data'"
     
     
 def clearFromMem(requestID):
@@ -478,26 +473,37 @@ def categoryCampaignCheck(requestID):
   request_data = readFromMem(requestID)
   
   # If no data yet : return 'not completed'
-  if request_data == "no data":
+  if request_data == "No shared pickle object found":
 
     print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : no data found in Pickle : returning {'status':'not competed'}"
     data = {"status":"not completed"}
     #print "DUMPING DATA 2 !!!"
-    return json.dumps(data)    
+    return json.dumps(data)
 
   # If data : return data (and remove from Pickle if 'completed')
   else:
-    return "hit end"
+    
     print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : data found in Pickle : see returned below:"
     print request_data
     print ""
 
     # Remove from mem if request completed    
     if request_data["status"] == "completed":
-      print "DUMPING DATA 3 !!!"
+      
       print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : removing request from Pickle as no longer required"
+
       clearFromMem(requestID)
-    #print "DUMPING DATA 4 !!!"    
-    return json.dumps(request_data)    
+      return json.dumps(request_data)
+
+    if request_data["status"] == "not completed":
+
+      print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : status is 'not completed'"
+                  
+      return json.dumps(request_data)
+    
+    else:
+      
+      # return requst data back
+      return request_data
 
 
