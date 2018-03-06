@@ -7,7 +7,7 @@ window.categoryCampaignPoll = function(requestID){
         // add loop counter to set a max
         window.categoryCampaignPoll_count = window.categoryCampaignPoll_count || 0; // calculate current loop       
         window.categoryCampaignPoll_count++ // increase loop count
-        window.categoryCampaignPoll_count_loop_max = 40; // set max loops to run
+        window.categoryCampaignPoll_count_loop_max = 100; // set max loops to run
         window.categoryCampaignPoll_count_loop_interval = 5000; // Interval between loops
 
         // check if loop exceeded

@@ -151,6 +151,12 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   import base64
   import random
 
+  # Write requestID to memory so we can poll the status of it
+  this_request = {} 
+  this_request["status"] = "not completed"
+  this_request["id"] = requestID
+  writeToMem(requestID,this_request)
+
   # FUNCTION : apiHelper
   def apiCall(apiURL,requestType,data,publicKey,privateKey):
 
@@ -320,7 +326,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
             print "AUDIENCE CATEGORY SEARCH : Campaign ID='" + str(campaign["id"]) + "' | Campaign Name='" + campaign["name"] + "'"        
 
-  print "\nALL AUDIENCES CAMPAIGNS CHECKED : Results below"
+  print "\nALL AUDIENCES CAMPAIGNS CHECKED : Writing to Memory"
 
   # Writing results to data
   this_request = {}
@@ -371,7 +377,6 @@ def readFromMem(requestID):
 
       print "\nRequest not found in 'all_requests' : returning"
       return "No requests found"
-    
     
 def clearFromMem(requestID):
 
