@@ -328,10 +328,10 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   print "\nALL AUDIENCES CAMPAIGNS CHECKED : Results below"
 
   # Writing results to data
-  requestData = {}
-  requestData["data"] = audiences
-  requestData["status"] = "completed"
-  writeToMem(requestID,requestData)  
+  this_request = {}
+  this_request["data"] = audiences
+  this_request["status"] = "completed"
+  writeToMem(requestID,this_request)  
 
 def writeToMem(requestID,data):
 
