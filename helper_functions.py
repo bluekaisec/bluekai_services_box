@@ -140,12 +140,7 @@ def logparser(log_file):
 def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignQueue() started"
-  
-  # Write requestID to memory so we can poll the status of it
-  this_request = {} 
-  this_request["status"] = "not completed"
-  writeToMem(requestID,this_request)
-
+    
   import os
   import urllib
   import urllib2
@@ -331,16 +326,16 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   this_request = {}
   this_request["data"] = audiences
   this_request["status"] = "completed"
-  writeToMem(requestID,this_request)  
+  writeToMem(requestID,this_request)
 
 def writeToMem(requestID,data):
 
   print "\nGLOBAL : writeToMem() called"
+  global all_requests
 
   # if 'all_requests' does not exist in globals() : add it
   if "all_requests" not in globals():
 
-    global all_requests
     all_requests = {}
 
     print "'all_requests' not found in globals() : created (see below)"
@@ -348,13 +343,14 @@ def writeToMem(requestID,data):
 
   # Adding request into 'all_requests'
   print "\nUpdating 'all_requests' with request " + requestID +  " = " + str(data) + " see below:"
-  print data
+  print data  
 
   all_requests[requestID] = data
 
 def readFromMem(requestID):
 
   print "GLOBAL : readFromMem() called"
+  global all_requests
 
   # if 'all_requests' not found in globals() then return
   if "all_requests" not in globals():
@@ -379,6 +375,7 @@ def readFromMem(requestID):
 def clearFromMem(requestID):
 
   print "\nGLOBAL : clearFromMem() called"
+  global all_requests
 
   if "all_requests" not in globals():
 
@@ -393,6 +390,7 @@ def clearFromMem(requestID):
 def clearAllMem():
 
   print "\nGLOBAL : clearAllMem() called"
+  global all_requests
 
   if "all_requests" not in globals():
 
