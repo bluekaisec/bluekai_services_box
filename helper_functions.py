@@ -271,7 +271,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   # 1a Call Audiences API to get list of audiences
   print "\nAUDIENCE GRAB : grabbing audiences"
-  urlRequest = "http://services.bluekai.com/Services/WS/audiences"
+  urlRequest = "https://services.bluekai.com/Services/WS/audiences"
   all_audiences = apiCall(urlRequest,"GET",None,publicKey,privateKey)
   print "AUDIENCE GRAB : audiences should be returned"
 
@@ -308,7 +308,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   
     print "AUDIENCE CATEGORY SEARCH : Audience call " + str(audience_call_number) + " : Audience ID = " + str(audience_id)    
     audience_id = str(audience_id)
-    urlRequest = "http://services.bluekai.com/Services/WS/audiences/"+audience_id
+    urlRequest = "https://services.bluekai.com/Services/WS/audiences/"+audience_id
     returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)    
 
     # 2b Check each for Category ID
