@@ -1,4 +1,6 @@
 import sys
+import pickle
+import json
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -135,20 +137,23 @@ def logparser(log_file):
   
   return response
 
-def categoryCampaignCheck(publicKey,privateKey,categoryID):
+def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
-  print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck() started"
+  print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignQueue() started"
 
-  import os
-  import sys
+  # Write requestID to memory so we can poll the status of it
+  requestData = {}  
+  requestData["status"] = "not completed"
+  writeToMem(requestID,requestData)  
+
+  import os  
   import urllib
   import urllib2
   import cookielib
   import urlparse
   import hashlib 
   import hmac
-  import base64
-  import json
+  import base64  
   import random
 
   # FUNCTION : apiHelper
@@ -320,12 +325,147 @@ def categoryCampaignCheck(publicKey,privateKey,categoryID):
 
             print "AUDIENCE CATEGORY SEARCH : Campaign ID='" + str(campaign["id"]) + "' | Campaign Name='" + campaign["name"] + "'"        
 
+  print "\nALL AUDIENCES CAMPAIGNS CHECKED : Results below"
 
+  # Writing results to data
+  requestData = {}
+  requestData["data"] = audiences
+  requestData["status"] = "completed"
+  writeToMem(requestID,requestData)  
+
+def writeToMem(requestID,data):
+
+  print "\nPICKLE : writeToMem() called"
+
+  try:
+
+    open("requests.pickle","rb")
+
+  except:
+
+    #print "\nPICKLE : No shared pickle object found : creating with request : " + requestID + " = " + str(data)
+
+    # if no object doesn't exist : create and write to shared
+    all_requests = {}
+    all_requests[requestID] = data
+    pickle_out = open("requests.pickle","wb")
+
+    print "\nNo Pickle Object found : creating object (see value below)"
+    print all_requests
+    pickle.dump(all_requests, pickle_out)
+    pickle_out.close()
+
+  else:
+
+    # if object exists : add request to object in shared
+    pickle_in = open("requests.pickle","rb")
+    all_requests = pickle.load(pickle_in)
+
+    print "\nShared pickle object found : see below"
+    print all_requests
     print ""
 
-  print "\nALL AUDIENCES CAMPAIGNS CHECKED : Results below"
-  print audiences
+    all_requests[requestID] = data
 
-  # Return to browser
-  return audiences
+    print all_requests[requestID]
+    print ""
 
+    print "\nUpdating pickle object with request " + requestID +  " = " + str(data) + " see below:"
+    print all_requests
+
+    pickle_out = open("requests.pickle","wb")
+    pickle.dump(all_requests, pickle_out)
+    pickle_out.close()
+
+def readFromMem(requestID):
+
+  print "PICKLE : readFromMem() called"
+
+  try:
+
+    open("requests.pickle","rb")
+
+  except:
+
+    print "\nNo shared pickle object found"
+    
+  else:
+
+    # if object exists : add request to object in shared
+    pickle_in = open("requests.pickle","rb")    
+    all_requests = pickle.load(pickle_in)
+
+    #print "\n PICKLE : Shared pickle object found : see below"
+    #print all_requests
+    #print "\n PICKLE : Shared pickle object found : looking for : request ID=" + requestID
+
+
+    if requestID in all_requests:
+      print  "Shared pickle object : found request = " + requestID + " : printing below"
+      print all_requests[requestID]
+      return all_requests[requestID]
+
+    else:
+
+      print "\nRequest not found in Pickle object : returning 'no data'"      
+      return "no data"
+    
+    
+def clearFromMem(requestID):
+
+  print "\nPICKLE : clearFromMem() called"
+
+  try:
+
+    open("requests.pickle","rb")
+
+  except:
+
+    print "\nNo shared pickle object found : ABORT"
+    
+  else:
+
+    # if object exists : add request to object in shared
+    pickle_in = open("requests.pickle","rb")
+    all_requests = pickle.load(pickle_in)
+
+    #print "\nPICKLE : Shared pickle object found : see below"
+    #print all_requests
+    
+    #print "\nPICKLE : Deleting requestID=" + requestID + " from pickle object"
+    #del all_requests[requestID]
+    
+    pickle_out = open("requests.pickle","wb")
+    pickle.dump(all_requests, pickle_out)    
+    pickle_out.close()
+
+    #print "\nPICKLE : See updated pickle object below"
+    #print all_requests
+
+def categoryCampaignCheck(requestID):
+
+  print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck() started"
+  print "requestID = " + requestID
+  print ""
+  
+  #Check Pickle for request
+  request_data = readFromMem(requestID)
+
+  # If no data yet : return 'not completed'
+  if request_data == "no data":
+
+    print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : no data found in Pickle : returning {'status':'not competed'}"
+    data = {"status":"not completed"}
+    return json.dumps(data)
+
+  # If data : return data (and remove from Pickle if 'completed')
+  else:
+    print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : data found in Pickle : see returned below:"
+    print request_data
+    print ""
+
+    # Remove from mem if request completed    
+    if request_data["status"] == "completed":
+      print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : removing request from Pickle as no longer required"
+      clearFromMem(requestID)
+    return json.dumps(request_data)    

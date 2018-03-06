@@ -64,7 +64,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p> Add them here and it will return all audiences/campaigns which use this category (<a target ="_blank" href="https://docs.oracle.com/cloud/latest/marketingcs_gs/OMCDA/index.html#Developers/getting_started/getting_your_developer_keys.html%3FTocPath%3DAPI%2520Developer%2520Guide%7C_____1">How to Grab Your API Keys</a>)</p>
 
           <!--
-          <form method="post" action="{{ url_for('category_campaign_grabber_details')}}" name="submit" enctype="multipart/form-data">
+          <form method="post" action="{{ url_for('category_campaign_grabber_queue')}}" name="submit" enctype="multipart/form-data">
             API Public Key:<br>
             <input type="text" name="apiPublicKey"><br>
             API Secret Key:<br>
@@ -75,7 +75,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </form>
           -->
 
-          <form class="form-signin" action="/category_campaign_grabber_details" method="post" role="form">
+          <form class="form-signin" action="/category_campaign_grabber_queue" method="post" role="form">
              
              <div class="col-xs-8">
                <input type="apiPublicKey" name="apiPublicKey" class="form-control .col-sm-*" placeholder="Enter Public Key" required autofocus><br>

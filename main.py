@@ -22,7 +22,10 @@ from werkzeug.debug import DebuggedApplication
 import json
 import os
 import io
+import pickle
+import thread
 
+# Normal Code
 app = Flask(__name__)
 
 print '\n### LOGGING : Flask started ###\n'
@@ -84,30 +87,42 @@ def google_tag_manager_test_page():
 def category_campaign_grabber():
     return render_template('category_campaign_grabber.html')
 
-@app.route('/category_campaign_grabber_details', methods=["POST"])
+@app.route('/category_campaign_grabber_queue', methods=["POST"])
 
-def category_campaign_grabber_details():
+def category_campaign_grabber_queue():
+    
+    print "\nCATEGORY CAMPAIGN : category_campaign_grabber_queue() submitted via 'submit' button"
 
-    print "\nCATEGORY CAMPAIGN : category_campaign_grabber_details() submitted via 'submit' button"
-
-    from helper_functions import categoryCampaignCheck
+    from helper_functions import categoryCampaignQueue
     
     apiPublicKey =  request.form['apiPublicKey']    
     apiSecretKey = request.form['apiSecretKey']
-    categoryID =  request.form['categoryID']
+    categoryID =  request.form['categoryID']    
+    requestID = request.form['requestID']    
 
     print "\nCATEGORY CAMPAIGN : Detected required form fields"
 
     print "apiPublicKey=" + apiPublicKey
     print "apiSecretKey=" + apiSecretKey    
     print "categoryID=" + categoryID
+    print "requestID=" + requestID
 
-    campaigns = categoryCampaignCheck(apiPublicKey,apiSecretKey,categoryID)
+    audiences = thread.start_new_thread(categoryCampaignQueue,(apiPublicKey,apiSecretKey,categoryID,requestID))
+
+    return "job in progress" #CHANGE THIS TO SOMETHING USEFUL
     
-    print "\nAUDIENCE DATA RETURNED : Response below"
-    print campaigns
-    return json.dumps(campaigns)    
+@app.route('/category_campaign_grabber_poll', methods=["POST"])
 
+def category_campaign_grabber_poll():
+
+    from helper_functions import categoryCampaignCheck
+    
+    requestID = request.form['requestID']    
+
+    requestdata = categoryCampaignCheck(requestID)
+
+    return requestdata
+            
 # CATEGORY AUDIENCE/CAMAPAIGN GRABBER : END
 
 @app.errorhandler(500)
