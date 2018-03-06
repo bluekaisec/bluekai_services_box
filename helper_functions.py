@@ -145,9 +145,9 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   clearAllMem()
 
   # Write requestID to memory so we can poll the status of it
-  requestData = {}  
+  requestData = {} 
   requestData["status"] = "not completed"
-  writeToMem(requestID,requestData)  
+  writeToMem(requestID,requestData)
 
   import os  
   import urllib
