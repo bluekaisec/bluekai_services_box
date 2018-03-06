@@ -154,7 +154,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   # Write requestID to memory so we can poll the status of it
   this_request = {} 
   this_request["status"] = "not completed"
-  this_request["id"] = requestID
+  this_request["request_id"] = requestID
   this_request["notes"] = []
   writeToMem(requestID,this_request)
 
@@ -267,17 +267,14 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   # 1 RETURN AUDIENCE LIST AND GET LIST OF IDS
 
   this_request["notes"].append("requesting audiences")
-  writeToMem(requestID,this_request)
+  writeToMem(requestID,this_request)  
 
   # 1a Call Audiences API to get list of audiences
   print "\nAUDIENCE GRAB : grabbing audiences"
   urlRequest = "http://services.bluekai.com/Services/WS/audiences"
   all_audiences = apiCall(urlRequest,"GET",None,publicKey,privateKey)
   print "AUDIENCE GRAB : audiences should be returned"
-
-  this_request["notes"].append("audiences returned")
-  writeToMem(requestID,this_request)
-
+  
   # 1b Loop through returned audience list, grab Audience IDs and put in list
   print "\nAUDIENCE PARSE : getting list of all audience IDs"
   audience_ids = []
@@ -285,6 +282,11 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   for audiences in all_audiences["audiences"]:
     audience_ids.append(audiences["id"])
+
+  audience_count = str(len(audience_ids))
+
+  this_request["notes"].append(audience_count + " audiences returned")
+  writeToMem(requestID,this_request)
 
   print "AUDIENCE PARSE : List of IDs returned (see below)\n"
   print audience_ids
@@ -301,8 +303,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   for audience_id in audience_ids:
   
-    print "AUDIENCE CATEGORY SEARCH : Audience call " + str(audience_call_number) + " : Audience ID = " + str(audience_id)
-    audience_call_number = audience_call_number +1
+    print "AUDIENCE CATEGORY SEARCH : Audience call " + str(audience_call_number) + " : Audience ID = " + str(audience_id)    
     audience_id = str(audience_id)
     urlRequest = "http://services.bluekai.com/Services/WS/audiences/"+audience_id
     returned_audience = apiCall(urlRequest,"GET",None,publicKey,privateKey)    
@@ -310,7 +311,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
     # 2b Check each for Category ID
     
     result = returned_audience.find('cat" : '+ str(categoryID) + ',')
-    print "AUDIENCE CATEGORY SEARCH : Checking audience '" + audience_id + " for category ID '" + categoryID + "'"
+    print "AUDIENCE CATEGORY SEARCH : Checking audience " + str(audience_call_number) + " of " + audience_count + " : audience ID=" + audience_id + " : checking for category ID '" + categoryID + "'"
     if result == -1:
         found = False
         print "AUDIENCE CATEGORY SEARCH : Category not found"
@@ -319,7 +320,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
         print "AUDIENCE CATEGORY SEARCH : Category FOUND"
     
     
-    this_request["notes"].append("AUDIENCE CATEGORY SEARCH : Checking audience '" + audience_id + " for category ID '" + categoryID + "'")
+    this_request["notes"].append("AUDIENCE CATEGORY SEARCH : Checking audience " + str(audience_call_number) + " of " + audience_count + " : audience ID=" + audience_id + " : checking for category ID '" + categoryID + "'")
     writeToMem(requestID,this_request)
 
 
@@ -344,12 +345,15 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
             this_request["notes"].append("AUDIENCE CATEGORY SEARCH : Campaign ID='" + str(campaign["id"]) + "' | Campaign Name='" + campaign["name"] + "'")
             writeToMem(requestID,this_request)
 
+    # Increment audience number
+    audience_call_number = audience_call_number +1 
+
   print "\nALL AUDIENCES CAMPAIGNS CHECKED : Writing to Memory"
 
   # Writing results to data  
   this_request["data"] = audiences
   this_request["status"] = "completed"
-  this_request["id"] = requestID
+  this_request["request_id"] = requestID
   this_request["notes"].append("job completed")
   writeToMem(requestID,this_request)
 
