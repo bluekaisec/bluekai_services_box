@@ -471,11 +471,12 @@ def categoryCampaignCheck(requestID):
 
   print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck() started"
   print "requestID = " + requestID
-  print ""
-  return "here is my return" #kill this later
+  print ""  
   
   #Check Pickle for request
   request_data = readFromMem(requestID)
+
+  return "here is my return" #kill this later
 
   # If no data yet : return 'not completed'
   if request_data == "no data":
