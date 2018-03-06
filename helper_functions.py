@@ -266,6 +266,9 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   # 1 RETURN AUDIENCE LIST AND GET LIST OF IDS
 
+  this_request["notes"].append("requesting audiences")
+  writeToMem(requestID,this_request)
+
   # 1a Call Audiences API to get list of audiences
   print "\nAUDIENCE GRAB : grabbing audiences"
   urlRequest = "http://services.bluekai.com/Services/WS/audiences"

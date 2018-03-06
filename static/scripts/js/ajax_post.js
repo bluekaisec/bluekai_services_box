@@ -44,6 +44,10 @@ window.categoryCampaignPoll = function(requestID){
                         // If job not completed : try again
                         } else if (response.status.indexOf('not completed') > -1){
 
+                            // Update HTML
+                            var pretty_data = JSON.stringify(response,undefined,3);                            
+                            jQuery("#apiResponse").text(pretty_data);
+
                             // Poll again
                             window.categoryCampaignPoll(requestID);
                         };
