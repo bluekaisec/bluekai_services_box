@@ -140,14 +140,11 @@ def logparser(log_file):
 def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
 
   print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignQueue() started"
-
-  # Clear all of Pickle Memory
-  clearAllMem()
-
+  
   # Write requestID to memory so we can poll the status of it
-  requestData = {} 
-  requestData["status"] = "not completed"
-  writeToMem(requestID,requestData)
+  this_request = {} 
+  this_request["status"] = "not completed"
+  writeToMem(requestID,this_request)
 
   import os
   import urllib
@@ -362,8 +359,8 @@ def readFromMem(requestID):
   # if 'all_requests' not found in globals() then return
   if "all_requests" not in globals():
 
-    print "No 'all_requests' found"
-    return "No 'all_requests' found"
+    print "No requests found"
+    return "No requests found"
     
   else:
 
