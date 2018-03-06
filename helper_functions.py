@@ -326,6 +326,7 @@ def categoryCampaignQueue(publicKey,privateKey,categoryID,requestID):
   this_request = {}
   this_request["data"] = audiences
   this_request["status"] = "completed"
+  this_request["id"] = requestID
   writeToMem(requestID,this_request)
 
 def writeToMem(requestID,data):
@@ -415,9 +416,9 @@ def categoryCampaignCheck(requestID):
   # If no data yet : return 'not completed'
   if request_data == "No requests found":
 
-    print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : no data found in Pickle : returning {'status':'not competed'}"
-    data = {"status":"not completed - no requests found yet"}
-    #print "DUMPING DATA 2 !!!"
+    print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : no data found in 'all_requests' : returning {'status':'not competed'}"
+    data = {"status":"not completed - no requests found yet", "id" : requestID}
+    
     return json.dumps(data)
 
   # If data : return data (and remove from 'all_requests' if 'completed')

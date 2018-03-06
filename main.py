@@ -107,11 +107,13 @@ def category_campaign_grabber_queue():
     print "categoryID=" + categoryID
     print "requestID=" + requestID
 
-    audiences = thread.start_new_thread(categoryCampaignQueue,(apiPublicKey,apiSecretKey,categoryID,requestID))
+    # Queue job to request campaign data
+    thread.start_new_thread(categoryCampaignQueue,(apiPublicKey,apiSecretKey,categoryID,requestID))
 
     # Write requestID to memory so we can poll the status of it
     this_request = {} 
     this_request["status"] = "not completed"
+    this_request["id"] = requestID
     writeToMem(requestID,this_request)
 
     return "Queued job for requestID = " + requestID
