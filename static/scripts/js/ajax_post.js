@@ -42,7 +42,7 @@ window.categoryCampaignPoll = function(requestID){
                             window.categoryCampaignPoll_stoploop = true; 
 
                         // If job not completed : try again
-                        } else if (response.status === "not completed"){
+                        } else if (response.status.indexOf('not completed') > -1){
 
                             // Poll again
                             window.categoryCampaignPoll(requestID);

@@ -476,7 +476,7 @@ def categoryCampaignCheck(requestID):
   if request_data == "No shared pickle object found":
 
     print "\nCATEGORYCAMPAIGNCHECK : categoryCampaignCheck(",requestID,") : no data found in Pickle : returning {'status':'not competed'}"
-    data = {"status":"no shared pickle object found yet"}
+    data = {"status":"not completed - no shared pickle object found yet"}
     #print "DUMPING DATA 2 !!!"
     return json.dumps(data)
 
